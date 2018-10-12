@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{44efb15d-5a1a-4621-88b5-b24e83bf6e8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="impl">
+      <UniqueIdentifier>{ee4c5225-af5b-4407-9b22-13d629ae2dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third party">
+      <UniqueIdentifier>{b9e422e5-f020-48b6-95a2-6412c4799f26}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="ztCV.cpp">
+      <Filter>impl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Traits.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Mat.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Mat.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

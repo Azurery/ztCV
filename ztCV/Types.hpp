@@ -1,5 +1,6 @@
 #include "Traits.h"
 #include <utility>
+#include <cassert>
 
 namespace ztCV {
 
@@ -108,7 +109,7 @@ namespace ztCV {
 	
 	template<typename Type, int n>
 	Type& Vec_<Type, n>::operator[](int index) {
-		static_assert(index < n);
+		assert(index < n);
 		return arr[index];
 	}
 

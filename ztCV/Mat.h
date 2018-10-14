@@ -34,7 +34,7 @@ namespace ztCV {
 		
 		void create(Size size, int type);
 		void create(int dims, const uint32_t* size, int type);
-		Mat_();
+		Mat_() = default;
 
 		//************************************	
 		// \parameter:	rows 二维数组的行数
@@ -133,6 +133,9 @@ namespace ztCV {
 		template<typename Type2> const Type2& at(Point pt) const;
 		template<typename Type2> Type2& at(Point pt);
 
+ 		template<int n> const Type& at(Vec_<int, n>& vec) const;
+		//template<typename Type, int n> Type& at(Vec_<int, n>& vec);
+
 		bool empty() const;
 
 		friend std::ostream& operator<<(std::ostream& out, const Mat_<Type>& m) {
@@ -163,6 +166,8 @@ namespace ztCV {
 			return out;
 		}
 		
+		Type* operator[](size_t n);
+		const Type* operator[](size_t n) const;
 		//************************************
 		// \method name:zeros
 		// \parameter:	rows 输入图像的行数
@@ -179,6 +184,9 @@ namespace ztCV {
 		void set_value(int value);
 		template<typename Type2> void set_value(const Scalar& s);
 
+
+		// 数据指针
+		int32_t* data_ptr_;
 private:
 		/** 总共为13位
 		* - subMat_ flag：第12位
@@ -199,8 +207,7 @@ private:
 		int32_t* data_begin_ = nullptr;
 		int32_t* data_end_ = nullptr;
 
-		// 数据指针
-		int32_t* data_ptr_;
+		
 
 		// layer_在此处指的是图像在各个层级上的字节数的大小
 		//    层级是指构成图像的名层次。由于在内存中，以二维图像为例，是按行进行存储的

@@ -1,3 +1,4 @@
 ﻿  Test.cpp
-d:\programming\projects\c++\ztcv\ztcv\test.cpp(43): warning C4477: 'fprintf' : format string '%d' requires an argument of type 'int', but variadic argument 4 has type 'double'
+d:\programming\projects\c++\ztcv\ztcv\test.cpp(46): warning C4477: “fprintf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 4 拥有了类型“double”
+d:\programming\projects\c++\ztcv\ztcv\test.cpp(124): warning C4477: “printf”: 格式字符串“%3.2f”需要类型“double”的参数，但可变参数 3 拥有了类型“int”
   ztCV.vcxproj -> D:\Programming\Projects\C++\ztCV\Debug\ztCV.exe

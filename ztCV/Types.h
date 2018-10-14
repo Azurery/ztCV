@@ -101,9 +101,9 @@ namespace ztCV {
 	using Vec4uc = Vec_<uint8_t, 4>;
 
 	/// signed char  =====> 8 bits
-	using Vec2c = Vec_<int8_t, 2>;
-	using Vec3c = Vec_<int8_t, 3>;
-	using Vec4c = Vec_<int8_t, 4>;
+	using Vec2sc = Vec_<int8_t, 2>;
+	using Vec3sc = Vec_<int8_t, 3>;
+	using Vec4sc = Vec_<int8_t, 4>;
 
 	/// unsigned short int =====> 16 bits
 	using Vec2us = Vec_<uint16_t, 2>;

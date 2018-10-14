@@ -72,6 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\Programming\Projects\C++\ztCV\ztCV\third party\libjpeg\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Programming\Projects\C++\ztCV\ztCV\third party\libjpeg\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -88,7 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -153,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="Mat.h" />
     <ClInclude Include="Mat.hpp" />
+    <ClInclude Include="ReadImage.hpp" />
     <ClInclude Include="Traits.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Types.hpp" />

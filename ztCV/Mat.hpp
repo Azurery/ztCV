@@ -251,14 +251,14 @@ namespace ztCV {
 	template<typename Type>
 	template<typename Type2>
 	Type2& Mat_<Type>::at(int row, int col) {
-		assert((row <= this->rows_) && (col <= this->cols_));
+		//assert((row <= this->rows_) && (col <= this->cols_));
 		return *reinterpret_cast<Type2*>(data_ptr_ + layer_[0] * row + layer_[1] * col);
 	}
 
  	template<typename Type>
  	template<typename Type2>
  	const Type2& Mat_<Type>::at(int row, int col) const {
- 		assert((row <= this->rows_) && (col <= this->cols_));
+ 		//assert((row <= this->rows_) && (col <= this->cols_));
  		return *reinterpret_cast<Type2*>(data_ptr + layer_[0] * row + layer_[1] * col);
  	}
 
@@ -288,6 +288,17 @@ namespace ztCV {
 		return at<Type>(pt.x_, pt.y_);
 	}
 
+// 	template<typename Type>
+//  	template<int n>
+//  	const Type& Mat_<Type>::at(Vec_<int, n>& vec) const {
+//  		assert(sizeof(Type) == element_size());
+// 		std::vector<uint32_t>& rgb;
+// 		for (int i = 0; i < this->channels_; i++) {
+// 			rgb.push_back()
+// 		}
+//  		//return *(Type*)(+vec.)
+//  	}
+
 	template<typename Type>
 	bool Mat_<Type>::empty() const {
 		return total() == 0;
@@ -312,6 +323,7 @@ namespace ztCV {
 	Mat_<Type> Mat_<Type>::ones(Size size, int type) {
 		return ones(size.width_, size.height_, type);
 	}
+	
 	template<typename Type>
 	void Mat_<Type>::set_value(int value) {
 		// 当有多行时
@@ -321,6 +333,18 @@ namespace ztCV {
 		}
 	}
 
+
+	template<typename Type>
+	const Type* Mat_<Type>::operator[](size_t n) const {
+		assert(n < this->rows_);
+		return reinterpret_cast<Type*>(data_ptr_ + n * layer_[0]);
+	}
+
+	template<typename Type>
+	Type* Mat_<Type>::operator[](size_t n) {
+		assert(n < this->rows_);
+		return reinterpret_cast<Type*>(data_ptr_ + n * layer_[0]);
+	}
 
 	//////////////////// mat_const_iterator //////////////
 // 	template<typename Type>

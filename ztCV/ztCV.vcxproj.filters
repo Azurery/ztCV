@@ -11,8 +11,8 @@
     <Filter Include="impl">
       <UniqueIdentifier>{ee4c5225-af5b-4407-9b22-13d629ae2dff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="third party">
-      <UniqueIdentifier>{b9e422e5-f020-48b6-95a2-6412c4799f26}</UniqueIdentifier>
+    <Filter Include="imgprocess">
+      <UniqueIdentifier>{426190e1-2d80-41c6-937a-c02691124a94}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -38,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="Mat.hpp">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadImage.hpp">
+      <Filter>imgprocess</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -77,6 +77,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\Programming\Projects\C++\ztCV\ztCV\third party\libjpeg\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Programming\Projects\C++\ztCV\ztCV\third party\libjpeg\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -100,11 +102,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -153,9 +155,10 @@
     <ClCompile Include="ztCV.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ImageProcessing.hpp" />
     <ClInclude Include="Mat.h" />
     <ClInclude Include="Mat.hpp" />
-    <ClInclude Include="ReadImage.hpp" />
+    <ClInclude Include="RWImage.hpp" />
     <ClInclude Include="Traits.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Types.hpp" />

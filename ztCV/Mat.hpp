@@ -22,7 +22,7 @@ namespace ztCV {
 
 		// 重新分配内存
 		this->data_ptr_=this->data_begin_= 
-			reinterpret_cast<int32_t*>(new int32_t[this->size_]);
+			reinterpret_cast<uint8_t*>(new int8_t[this->size_]);
 		this->data_end_ = this->data_ptr_ + this->size_*this->element_size_;
 		
 		this->reference_counter_ = new int(1);
@@ -159,7 +159,7 @@ namespace ztCV {
  		// FIXME: 此处未考虑多维平面
 		size_t total_size = this->size_;		
 		for (size_t i = 0; i < total_size; i++) {
-			reinterpret_cast<uint32_t*>(data_ptr_)[i] = s.arr[i % 3];
+			reinterpret_cast<uint8_t*>(data_ptr_)[i] = s.arr[i % 3];
 		}
 		return *this;
   	}
@@ -329,7 +329,7 @@ namespace ztCV {
 		// 当有多行时
 		const int total_size = size();
 			for (int i = 0; i < total_size; i++) {
-				reinterpret_cast<int32_t*>(data_ptr_)[i] = value;
+				reinterpret_cast<uint8_t*>(data_ptr_)[i] = value;
 		}
 	}
 

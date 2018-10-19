@@ -39,7 +39,10 @@
     <ClInclude Include="Mat.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="ReadImage.hpp">
+    <ClInclude Include="RWImage.hpp">
+      <Filter>imgprocess</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcessing.hpp">
       <Filter>imgprocess</Filter>
     </ClInclude>
   </ItemGroup>

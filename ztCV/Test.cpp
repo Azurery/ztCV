@@ -2,7 +2,7 @@
  #include "Types.hpp"
  #include "Mat.h"
  #include "Mat.hpp"
- #include "ReadImage.hpp"
+ #include "RWImage.hpp"
  #include <cstdio>
  #include <cassert>
  #include <iostream>
@@ -104,24 +104,39 @@
  static void test_read_image() {
  	const char* file_name = "D:\\1.jpg";
  	Mat mat = read_image(file_name);
-// 	EXPECT_EQ_INT(1600, mat.cols());
-//	std::cout << mat << std::endl;
-// 	for (int i = 0; i < 3; i++) {
-// 		std::cout << mat.at<Vec3i>(0, 0)[i] << std::endl;
-// 	}
+	//EXPECT_EQ_INT(1600, mat.cols());
+  	for (int i = 0; i < 3; i++) {
+  		std::cout << (int)mat.at<Vec3uc>(0, 0)[i] << std::endl;
+  	}
+  	
+ }
 
+ static void test_write_image() {
+	 const char* input_file = "D:\\1.jpg";
+	 Mat mat = read_image(input_file);
+	 const char* output_file = "D:\\2.jpg";
+	 write_image(output_file, mat);
  }
  
  static void test() {
  //	test_point();
  //	test_size();
  //	test_mat();
- 	test_read_image();
+ //	test_read_image();
+	test_write_image();
  }
  
  int main() {
  	test();
  	printf("%d/%d (%3.2f%%) passed\n", test_pass, test_count, test_pass * 100 / test_count);
+ 	
+// 	 std::vector<uint8_t> ret;
+// 	 for (int i = 0; i < 50; i++) {
+// 		 ret.push_back(i);
+// 	 }
+// 	 for (int i = 0; i < 50; i++) {
+// 		 std::cout << (int)ret[i] << std::endl;
+// 	 }
  	return 0;
  }
  

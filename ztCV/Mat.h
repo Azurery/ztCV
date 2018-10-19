@@ -186,7 +186,7 @@ namespace ztCV {
 
 
 		// 数据指针
-		int32_t* data_ptr_;
+		uint8_t* data_ptr_;
 private:
 		/** 总共为13位
 		* - subMat_ flag：第12位
@@ -204,8 +204,8 @@ private:
 		int dims_;
 
 		// Mat_数据的起始地址和末尾
-		int32_t* data_begin_ = nullptr;
-		int32_t* data_end_ = nullptr;
+		uint8_t* data_begin_ = nullptr;
+		uint8_t* data_end_ = nullptr;
 
 		
 

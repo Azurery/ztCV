@@ -1,4 +1,6 @@
 ﻿  Test.cpp
+d:\programming\projects\c++\ztcv\ztcv\rwimage.hpp(110): warning C4101: “row_pointer”: 未引用的局部变量
 d:\programming\projects\c++\ztcv\ztcv\test.cpp(46): warning C4477: “fprintf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 4 拥有了类型“double”
-d:\programming\projects\c++\ztcv\ztcv\test.cpp(124): warning C4477: “printf”: 格式字符串“%3.2f”需要类型“double”的参数，但可变参数 3 拥有了类型“int”
+d:\programming\projects\c++\ztcv\ztcv\test.cpp(131): warning C4477: “printf”: 格式字符串“%3.2f”需要类型“double”的参数，但可变参数 3 拥有了类型“int”
+d:\programming\projects\c++\ztcv\ztcv\rwimage.hpp(126): warning C4715: “ztCV::write_image”: 不是所有的控件路径都返回值
   ztCV.vcxproj -> D:\Programming\Projects\C++\ztCV\Debug\ztCV.exe

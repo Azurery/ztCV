@@ -7,6 +7,7 @@
  #include <cassert>
  #include <iostream>
  #include "Traits.h"
+#include "ImageProcessing.hpp"
  
  using namespace ztCV; 
  
@@ -112,18 +113,29 @@
  }
 
  static void test_write_image() {
-	 const char* input_file = "D:\\1.jpg";
-	 Mat mat = read_image(input_file);
-	 const char* output_file = "D:\\2.jpg";
-	 write_image(output_file, mat);
+	 const char* src_file = "D:\\test.jpg";
+	 Mat mat = read_image(src_file);
+	 const char* dest_file = "D:\\2.jpg";
+	 write_image(dest_file, mat);
  }
  
+ static void test_gaussian_blur() {
+	 const char* src_file = "D:\\test.jpg";
+	 Mat src = read_image(src_file);
+	 Mat dest;
+	 auto border = static_cast<int>(border_type::BORDER_CONSTANT);
+	 gaussian_blur(src, dest, Size(3, 3), 0, 0, border);
+	 const char* dest_file = "D:\\2.jpg";
+	 write_image(dest_file, dest);
+ }
+
  static void test() {
  //	test_point();
  //	test_size();
  //	test_mat();
  //	test_read_image();
-	test_write_image();
+ //	test_write_image();
+	 test_gaussian_blur();
  }
  
  int main() {

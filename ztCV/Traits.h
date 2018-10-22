@@ -42,6 +42,14 @@
 #define CV_64DC3 (MAKE_TYPE(static_cast<int>(cv_depth::CV_DOUBLE),3))
 #define CV_64DC4 (MAKE_TYPE(static_cast<int>(cv_depth::CV_DOUBLE),4))
 
+enum class border_type {
+	BORDER_REPLICATE, // aaaaaa | abcdefgh | hhhhhhh
+	BORDER_REFLECT,	  // fedcba | abcdefgh | hgfedcb
+	BORDER_REFLECT101,// gfedcb | abcdefgh | gfedcba
+	BORDER_WRAP,	  // gfedcb | abcdefgh | gfedcba
+	BORDER_CONSTANT   // iiiiii | abcdefgh | iiiiiii
+};
+
 namespace ztCV {
 	/**
 	*  @brief  cv_depth这个enum表示图像深度。

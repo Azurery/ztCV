@@ -22,7 +22,7 @@ namespace ztCV {
 
 		// 重新分配内存
 		this->data_ptr_=this->data_begin_= 
-			reinterpret_cast<uint8_t*>(new int8_t[this->size_]);
+			reinterpret_cast<uint8_t*>(new uint8_t[this->size_]);
 		this->data_end_ = this->data_ptr_ + this->size_*this->element_size_;
 		
 		this->reference_counter_ = new int(1);

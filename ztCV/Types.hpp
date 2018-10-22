@@ -60,7 +60,7 @@ namespace ztCV {
 	}
 
 	template<typename Type, int n> Vec_<Type, n>::Vec_(Type vec0) {
-		static_assert(n >= 1);
+		assert(n >= 1);
 		arr[0] = vec0;
 		for (int i = 1; i < n; i++) {
 			arr[i] = 0;

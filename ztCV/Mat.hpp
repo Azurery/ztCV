@@ -83,7 +83,7 @@ namespace ztCV {
 
 
 	template<typename Type>
-	Mat_<Type>::Mat_(int rows, int cols, int type, int value)
+	Mat_<Type>::Mat_(int rows, int cols, int type, Type value)
 		: Mat_(rows, cols, type) {
 		set_value(value);
 	}
@@ -247,6 +247,11 @@ namespace ztCV {
 	size_t Mat_<Type>::size() const {
 		return total();
 	}
+	
+	template<typename Type>
+	Type& Mat_<Type>::at(int row, int col) {
+		return *reinterpret_cast<Type*>(data_ptr_ + layer_[0] * row + layer_[1] * col);
+	}
 
 	template<typename Type>
 	template<typename Type2>
@@ -259,7 +264,7 @@ namespace ztCV {
  	template<typename Type2>
  	const Type2& Mat_<Type>::at(int row, int col) const {
  		//assert((row <= this->rows_) && (col <= this->cols_));
- 		return *reinterpret_cast<Type2*>(data_ptr + layer_[0] * row + layer_[1] * col);
+ 		return *reinterpret_cast<Type2*>(data_ptr_ + layer_[0] * row + layer_[1] * col);
  	}
 
 	template<typename Type>
@@ -325,11 +330,11 @@ namespace ztCV {
 	}
 	
 	template<typename Type>
-	void Mat_<Type>::set_value(int value) {
+	void Mat_<Type>::set_value(Type value) {
 		// 当有多行时
 		const int total_size = size();
 			for (int i = 0; i < total_size; i++) {
-				reinterpret_cast<uint8_t*>(data_ptr_)[i] = value;
+				reinterpret_cast<Type*>(data_ptr_)[i] = value;
 		}
 	}
 

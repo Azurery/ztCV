@@ -76,7 +76,7 @@ namespace ztCV {
 	}
 
 	template<typename Type, int n> Vec_<Type, n>::Vec_(Type vec0, Type vec1, Type vec2) {
-		static_assert(n >= 3);
+		assert(n >= 3);
 		arr[0] = vec0, arr[1] = vec1, arr[2] = vec2;
 		for (int i = 3; i < n; i++) {
 			arr[i] = 0;
@@ -91,8 +91,8 @@ namespace ztCV {
 		}
 	}
 
-	template<typename Type, int n> Vec_<Type, n>::Vec_(const Vec_<Type, n>& vec) 
-		: Vec_<Type, n>(vec.arr) {}
+	template<typename Type, int n> Vec_<Type, n>::Vec_(Vec_<Type, n>& vec) 
+		: Vec_<Type, n>(vec.arr[0], vec.arr[1], vec.arr[2]) {}
 
 	template<typename Type, int n> Vec_<Type, n>::Vec_(std::initializer_list<Type>& il) {
 		int i = 0;
@@ -103,7 +103,7 @@ namespace ztCV {
 
 	template<typename Type, int n>
 	const Type& Vec_<Type, n>::operator[](int index) const {
-		static_assert(index < n);
+		assert(index < n);
 		return arr[index];
 	}
 	

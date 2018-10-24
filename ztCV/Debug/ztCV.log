@@ -1,7 +1,8 @@
 ﻿  Test.cpp
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(56): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(72): warning C4244: “/=”: 从“double”转换到“float”，可能丢失数据
+d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(111): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(118): warning C4244: “/=”: 从“double”转换到“float”，可能丢失数据
 d:\programming\projects\c++\ztcv\ztcv\test.cpp(47): warning C4477: “fprintf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 4 拥有了类型“double”
-d:\programming\projects\c++\ztcv\ztcv\test.cpp(143): warning C4477: “printf”: 格式字符串“%3.2f”需要类型“double”的参数，但可变参数 3 拥有了类型“int”
-d:\programming\projects\c++\ztcv\ztcv\rwimage.hpp(126): warning C4715: “ztCV::write_image”: 不是所有的控件路径都返回值
+d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(87): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  d:\programming\projects\c++\ztcv\ztcv\test.cpp(146): note: 参见对正在编译的函数 模板 实例化“void ztCV::box_filter<uint8_t>(const ztCV::Mat_<uint8_t> &,ztCV::Mat_<uint8_t> &,ztCV::Size,bool,int)”的引用
+d:\programming\projects\c++\ztcv\ztcv\rwimage.hpp(124): warning C4715: “ztCV::write_image”: 不是所有的控件路径都返回值
   ztCV.vcxproj -> D:\Programming\Projects\C++\ztCV\Debug\ztCV.exe

@@ -85,7 +85,7 @@ namespace ztCV {
 		Vec_(Type vec0, Type vec1, Type vec2);
 		Vec_(Type vec0, Type vec1, Type vec2, Type vec3);
 
-		Vec_(const Vec_<Type, n>& vec);
+		Vec_(Vec_<Type, n>& vec);
 		Vec_(std::initializer_list<Type>&);
 
 		const Type& operator[](int index) const;

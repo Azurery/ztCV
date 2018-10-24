@@ -47,7 +47,7 @@ namespace ztCV {
 		//************************************
 		Mat_(int rows, int cols, int type);
 
-		Mat_(int rows, int cols, int type, int value);
+		Mat_(int rows, int cols, int type, Type value);
 
 		//*********************************** 	
 		// \parameter:	size ¶þÎ¬Êý×é£ºSize(cols, rows)
@@ -123,6 +123,7 @@ namespace ztCV {
 		template<typename Type2> const Type2& at(int row) const;
 		template<typename Type2> Type2& at(int row);
 
+		Type& at(int row, int col);
 
 		//************************************
 		// \method name:at
@@ -181,7 +182,7 @@ namespace ztCV {
 		static Mat_ ones(int rows, int cols, int type);
 		static Mat_ ones(Size size, int type);
 
-		void set_value(int value);
+		void set_value(Type value);
 		template<typename Type2> void set_value(const Scalar& s);
 
 

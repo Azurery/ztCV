@@ -98,7 +98,7 @@
  	TEST_MAT_ZEROS_BASE(4, 4, CV_8UCC1);
  	TEST_MAT_ZEROS1(Size(5, 4), CV_8UCC1);
  	TEST_SCALAR_MAT();
- 	TEST_MAT_AT();
+// 	TEST_MAT_AT();
  	TEST_MAT_AT1();
  }
  
@@ -113,34 +113,54 @@
  }
 
  static void test_write_image() {
-	 const char* src_file = "D:\\test.jpg";
+	 const char* src_file = "D:\\pic.jpg";
 	 Mat mat = read_image(src_file);
 	 const char* dest_file = "D:\\2.jpg";
 	 write_image(dest_file, mat);
  }
  
  static void test_gaussian_blur() {
-	 const char* src_file = "D:\\test.jpg";
+	 const char* src_file = "D:\\pic.jpg";
 	 Mat src = read_image(src_file);
 	 Mat dest;
-	 auto border = static_cast<int>(border_type::BORDER_CONSTANT);
-	 gaussian_blur(src, dest, Size(3, 3), 0, 0, border);
-	 const char* dest_file = "D:\\2.jpg";
-	 write_image(dest_file, dest);
+ 	 auto border = static_cast<int>(border_type::BORDER_CONSTANT);
+ 	 gaussian_blur(src, dest, Size(5, 5), 0, 0, border);
+ 	 const char* dest_file = "D:\\2.jpg";
+ 	 write_image(dest_file, dest);
+// 	 
+// 	 for (int i = 0; i < src.rows(); i++) {
+// 		 for (int j = 0; j < src.cols(); j++) {
+// 			 for (int c = 0; c < src.channels(); c++) {
+// 				 std::cout << (int)src.at<Vec3uc>(i,j)[c] << " ";
+// 			 }
+// 			 std::cout << ",";
+// 		 }
+// 	 }
  }
 
+ static void test_box_filter() {
+	 const char* src_file = "D:\\pic.jpg";
+	 Mat src = read_image(src_file);
+	 Mat dest;
+	 auto border = static_cast<int>(border_type::BORDER_REPLICATE);
+	 box_filter(src, dest, Size(3, 3), true, border);
+	 const char* dest_file = "D:\\2.jpg";
+	 write_image(dest_file, dest);
+	  	 
+ }
  static void test() {
  //	test_point();
  //	test_size();
  //	test_mat();
  //	test_read_image();
- //	test_write_image();
+// 	test_write_image();
 	 test_gaussian_blur();
+//	 test_box_filter();
  }
  
  int main() {
  	test();
- 	printf("%d/%d (%3.2f%%) passed\n", test_pass, test_count, test_pass * 100 / test_count);
+ //	printf("%d/%d (%3.2f%%) passed\n", test_pass, test_count, test_pass * 100 / test_count);
  	
 // 	 std::vector<uint8_t> ret;
 // 	 for (int i = 0; i < 50; i++) {

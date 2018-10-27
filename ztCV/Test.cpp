@@ -145,17 +145,29 @@
 	 auto border = static_cast<int>(border_type::BORDER_REPLICATE);
 	 box_filter(src, dest, Size(3, 3), true, border);
 	 const char* dest_file = "D:\\2.jpg";
-	 write_image(dest_file, dest);
-	  	 
+	 write_image(dest_file, dest);	 
  }
+
+ static void test_median_filter() {
+	 const char* src_file = "D:\\test.jpg";
+	 Mat src = read_image(src_file);
+	 Mat dest;
+	 auto border = static_cast<int>(border_type::BORDER_REPLICATE);
+	 median_filter(src, dest, Size(3, 3));
+	 const char* dest_file = "D:\\2.jpg";
+	 write_image(dest_file, dest);
+
+ }
+
  static void test() {
  //	test_point();
  //	test_size();
  //	test_mat();
  //	test_read_image();
 // 	test_write_image();
-	 test_gaussian_blur();
+//	 test_gaussian_blur();
 //	 test_box_filter();
+	 test_median_filter();
  }
  
  int main() {

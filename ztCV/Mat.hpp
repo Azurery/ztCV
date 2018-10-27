@@ -352,7 +352,27 @@ namespace ztCV {
 	}
 
 	//////////////////// mat_const_iterator //////////////
-// 	template<typename Type>
-// 	mat_const_iterator<Type>::mat_const_iterator
+ 	template<typename Type>
+	mat_const_iterator<Type>::mat_const_iterator(const Mat_<Type>& m)
+		: mat_(m), element_size_(m.element_size()) {
+	}
 
+	template<typename Type>
+	mat_const_iterator<Type>::mat_const_iterator(const mat_const_iterator<Type>& other)
+		: start_(iter.start_), end_(iter.end_), cur_(iter.cur_), mat_(iter.mat_), element_size_(iter.element_size_) {}
+
+	template<typename Type>
+	mat_const_iterator<Type>& mat_const_iterator<Type>::operator=(const mat_const_iterator<Type>& other) {
+		this->start_ = other.start_;
+		this->end_ = other.end_;
+		this->mat_ = other.mat_;
+		this->cur_ = other.cur_;
+		this->element_size_ = other.element_size_;
+		return *this;
+	}
+
+	template<typename Type>
+	const Type& mat_const_iterator<Type>::operator*() const {
+
+	}
 }

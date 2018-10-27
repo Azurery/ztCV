@@ -261,17 +261,18 @@ private:
 	template<typename Type>
 	class mat_const_iterator {
 	public:
-		using value_type = typename std::iterator_traits<Type>::value_type;
-		using difference_type = typename std::iterator_traits<Type>::difference_type;
-		using pointer = typename std::iterator_traits<Type>::pointer;
-		using reference = typename std::iterator_traits<Type>::reference;
+		using value_type = Type;
+		using difference_type = ptrdiff_t;
+		using pointer = value_type * ;
+		using reference = value_type & ;
+		using iterator = pointer;
 		using iterator_categoty = typename std::iterator_traits<Type>::random_access_iterator_tag;
 
 		mat_const_iterator() = default;
-		mat_const_iterator(const Mat_<Type>* m);
-		mat_const_iterator(const mat_const_iterator<Type>& iter);
+		mat_const_iterator(const Mat_<Type>& m);
+		mat_const_iterator(const mat_const_iterator<Type>& other);
 
-		mat_const_iterator<Type>& operator=(const mat_const_iterator<Type>& iter);
+		mat_const_iterator<Type>& operator=(const mat_const_iterator<Type>& other);
 
 		const Type& operator*() const;
 		const Type& operator[](difference_type diff) const;
@@ -288,8 +289,12 @@ private:
 		bool operator<(const mat_const_iterator<Type>& iter) const;
 		bool operator>(const mat_const_iterator<Type>& iter) const;
 
-	protected:
-		
+	private:
+		iterator start_;
+		iterator end_;
+		const Mat_<Type>& mat_;
+		iterator cur_;
+		size_t element_size_;
 	};
 }
 

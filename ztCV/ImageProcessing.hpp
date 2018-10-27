@@ -6,11 +6,17 @@
 #include "Traits.h"
 #include <cassert>
 #include <functional>
+#include <algorithm>
 
 namespace ztCV {
 
 	template<typename Type>
 	void box_filter(const Mat_<Type>& src, Mat_<Type>& dest, Size size, bool normalize, int border_type);
+
+	template<typename Type>
+	void normalized_filter(const Mat_<Type>& src, Mat_<Type>& dest, Size size, int border_type) {
+		box_filter(src, dest, size, border_type);
+	}
 
 	Matf get_gaussian_kernel(Size kernel_size, double sigma_x, double sigmal_y, int kernel_type);
 
@@ -19,6 +25,9 @@ namespace ztCV {
 
 	int process_border(int pos, int width, int border_type);
 	
+	template<typename Type>
+	void median_filter(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
+
 	template<typename Type, typename Type2>
 	void apply(const Mat_<Type>& src, Mat_<Type>& dest, Mat_<Type2>& kernel, int border_type) {
 		
@@ -129,9 +138,41 @@ namespace ztCV {
 		
 		Matf gaussian_kernel = get_gaussian_kernel(kernel_size, sigma_x, sigma_y, CV_32FC1);
 		apply(src, dest, gaussian_kernel, border_type);
-		 
-
 	}
+
+	template<typename Type>
+	void median_filter(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size) {
+		int dest_type = src.type();
+		int border = kernel_size.width_ / 2;
+		int rows = src.rows() - border;
+		int cols = src.cols() - border;
+		int buffer_size = std::pow(kernel_size.width_, 2);
+		dest.create(rows, cols, dest_type);
+		Mat buffer(kernel_size.width_, kernel_size.height_, CV_8UCC3);
+
+		for (int i = border; i < rows; i++) {
+			for (int j = border; j < cols; j++) {
+
+				for (int k = -border; k < border; k++) {
+					for (int l = -border; k < border; l++) {
+						for (int c = 0; c < src.channels(); c++) {
+							buffer.at<Vec3uc>(k, l)[c] = src.at<Vec3uc>(i + k, j + l)[c];
+						}
+					}
+				}
+
+				//std::sort(buffer.);
+				Vec3uc rgb = {
+					static_cast<uint8_t>(sum[2]),
+					static_cast<uint8_t>(sum[1]),
+					static_cast<uint8_t>(sum[0])
+				};
+				dest.at<Vec3uc>(i, j) = rgb;
+			}
+			std::cout << i;
+		}
+	}
+
 
 	int process_border(int pos, int width, int border_type) {
 		switch (border_type) {

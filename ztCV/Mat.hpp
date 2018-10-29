@@ -253,19 +253,20 @@ namespace ztCV {
 		return *reinterpret_cast<Type*>(data_ptr_ + layer_[0] * row + layer_[1] * col);
 	}
 
-	template<typename Type>
-	template<typename Type2>
-	Type2& Mat_<Type>::at(int row, int col) {
-		//assert((row <= this->rows_) && (col <= this->cols_));
-		return *reinterpret_cast<Type2*>(data_ptr_ + layer_[0] * row + layer_[1] * col);
-	}
-
  	template<typename Type>
  	template<typename Type2>
- 	const Type2& Mat_<Type>::at(int row, int col) const {
- 		//assert((row <= this->rows_) && (col <= this->cols_));
+ 	Type2& Mat_<Type>::at(int row, int col) {
+ 		assert((row <= this->rows_) && (col <= this->cols_));
  		return *reinterpret_cast<Type2*>(data_ptr_ + layer_[0] * row + layer_[1] * col);
- 	}
+	}
+ 
+  	template<typename Type>
+  	template<typename Type2>
+  	const Type2& Mat_<Type>::at(int row, int col) const {
+  		assert((row <= this->rows_) && (col <= this->cols_));
+  		return *reinterpret_cast<Type2*>(data_ptr_ + layer_[0] * row + layer_[1] * col);
+	}
+
 
 	template<typename Type>
 	template<typename Type2>
@@ -351,19 +352,42 @@ namespace ztCV {
 		return reinterpret_cast<Type*>(data_ptr_ + n * layer_[0]);
 	}
 
+
+	template<typename Type>
+	const Mat_<Type>& Mat_<Type>::clone() const {
+		return Mat_<Type>(this->rows(), this->cols(), this->type());
+	}
+
+	template<typename Type>
+	Mat_<Type>& operator-(const Mat_<Type>& src, const Mat_<Type>& dest) {
+		Mat_<Type> tmp(src.clone());
+		for (int i = 0; i < src.rows(); i++) {
+
+		}
+	}
+
+
 	//////////////////// mat_const_iterator //////////////
  	template<typename Type>
+	mat_const_iterator<Type>::mat_const_iterator()
+		: start_(0), end_(0), cur_(0), mat_(0), element_size_(0) {}
+	
+	template<typename Type>
 	mat_const_iterator<Type>::mat_const_iterator(const Mat_<Type>& m)
 		: mat_(m), element_size_(m.element_size()) {
+		if (m && m.is_continuous()) {
+			this->begin_ = m.data_ptr_;
+			this->end_ = this->begin_ + m.size();
+		}
 	}
 
 	template<typename Type>
 	mat_const_iterator<Type>::mat_const_iterator(const mat_const_iterator<Type>& other)
-		: start_(iter.start_), end_(iter.end_), cur_(iter.cur_), mat_(iter.mat_), element_size_(iter.element_size_) {}
+		: start_(iter.begin_), end_(iter.end_), cur_(iter.cur_), mat_(iter.mat_), element_size_(iter.element_size_) {}
 
 	template<typename Type>
 	mat_const_iterator<Type>& mat_const_iterator<Type>::operator=(const mat_const_iterator<Type>& other) {
-		this->start_ = other.start_;
+		this->begin_ = other.begin_;
 		this->end_ = other.end_;
 		this->mat_ = other.mat_;
 		this->cur_ = other.cur_;
@@ -373,6 +397,22 @@ namespace ztCV {
 
 	template<typename Type>
 	const Type& mat_const_iterator<Type>::operator*() const {
-
+		return this->cur_;
 	}
+
+	template<typename Type>
+	const Type& mat_const_iterator<Type>::operator[](difference_type diff) const {
+		return this->cur_ + diff;
+	}
+
+// 	template<typename Type>
+// 	const iterator mat_const_iterator<Type>::begin() const {
+// 		return this->begin_;
+// 	}
+// 
+// 	template<typename Type>
+// 	const iterator mat_const_iterator<Type>::end() const {
+// 		return this->end_;
+// 	}
+
 }

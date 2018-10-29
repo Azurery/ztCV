@@ -113,7 +113,6 @@ namespace ztCV {
 		template<typename Type2> Type2& at(int row, int col);
 		template<typename Type2> const Type2& at(int row, int col) const;
 		
-		
 		//************************************
 		// \method name:at
 		// \parameter:	row 指定一维数组的坐标
@@ -169,6 +168,9 @@ namespace ztCV {
 		
 		Type* operator[](size_t n);
 		const Type* operator[](size_t n) const;
+
+		const Mat_<Type>& clone() const;
+
 		//************************************
 		// \method name:zeros
 		// \parameter:	rows 输入图像的行数
@@ -196,13 +198,13 @@ private:
 		* - depth: 0-2位
 		*/
 		int flags_;
-		int rows_, cols_;
+		uint32_t rows_, cols_;
 
 		// 每个像素点的通道数量
 		// 计算公式：channels_ = element_size_ / channel_size_
-		int channels_;
+		uint32_t channels_;
 		// 矩阵的维数
-		int dims_;
+		uint8_t dims_;
 
 		// Mat_数据的起始地址和末尾
 		uint8_t* data_begin_ = nullptr;
@@ -234,11 +236,11 @@ private:
 
 		// Mat_中单个像素点所占的字节数(与通道数有关)
 		// 计算公式：element_size_ = channels * channel_size_
-		uint32_t element_size_;
+		uint8_t element_size_;
 
 		// 用于计算每个channel所占用用的字节数（与通道无关）
 		// 计算公式：channel_size_ = sizeof(Type)
-		size_t channel_size_;
+		uint8_t channel_size_;
 		
 		// Mat_总共的像素数量
 		uint32_t size_;
@@ -268,10 +270,12 @@ private:
 		using iterator = pointer;
 		using iterator_categoty = typename std::iterator_traits<Type>::random_access_iterator_tag;
 
-		mat_const_iterator() = default;
+		mat_const_iterator();
 		mat_const_iterator(const Mat_<Type>& m);
 		mat_const_iterator(const mat_const_iterator<Type>& other);
 
+		const iterator begin() const;
+		const iterator end() const;
 		mat_const_iterator<Type>& operator=(const mat_const_iterator<Type>& other);
 
 		const Type& operator*() const;
@@ -290,7 +294,7 @@ private:
 		bool operator>(const mat_const_iterator<Type>& iter) const;
 
 	private:
-		iterator start_;
+		iterator begin_;
 		iterator end_;
 		const Mat_<Type>& mat_;
 		iterator cur_;

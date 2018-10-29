@@ -57,15 +57,20 @@ namespace ztCV {
 			// 获取到图片的像素数据：
 			//		buffer保存了读取的当前行的数据，保存顺序是R、G、B
 			//		output_scanline是已经读取过的行数
-  			for (int i = 0; i < mat.cols(); i++) {
-    				mat.at<Vec3uc>(cinfo.output_scanline - 1, i)[2] = buffer[0][i * 3 + 0];
-    				mat.at<Vec3uc>(cinfo.output_scanline - 1, i)[1] = buffer[0][i * 3 + 1];
-    				mat.at<Vec3uc>(cinfo.output_scanline - 1, i)[0] = buffer[0][i * 3 + 2];
-   				
-//  				mat[cinfo.output_scanline - 1][i * 3 + 2] = buffer[0][i * 3 + 0];
-//  				mat[cinfo.output_scanline - 1][i * 3 + 1] = buffer[0][i * 3 + 1];
-//  				mat[cinfo.output_scanline - 1][i * 3 + 0] = buffer[0][i * 3 + 2];
-  			}
+			if (mat.channels() == 1) {
+				for (int i = 0; i < mat.cols(); i++) {
+					mat.at<float>(cinfo.output_scanline - 1, i) = buffer[0][i];
+				}
+			} else {
+				for (int i = 0; i < mat.cols(); i++) {
+ 					mat.at<Vec3uc>(cinfo.output_scanline - 1, i)[2] = buffer[0][i * 3 + 0];
+ 					mat.at<Vec3uc>(cinfo.output_scanline - 1, i)[1] = buffer[0][i * 3 + 1];
+ 					mat.at<Vec3uc>(cinfo.output_scanline - 1, i)[0] = buffer[0][i * 3 + 2];
+					//  				mat[cinfo.output_scanline - 1][i * 3 + 2] = buffer[0][i * 3 + 0];
+					//  				mat[cinfo.output_scanline - 1][i * 3 + 1] = buffer[0][i * 3 + 1];
+					//  				mat[cinfo.output_scanline - 1][i * 3 + 0] = buffer[0][i * 3 + 2];
+				}
+			}
 		}
 
 		jpeg_finish_decompress(&cinfo);
@@ -104,7 +109,11 @@ namespace ztCV {
 		 jpeg_start_compress(&cinfo, TRUE);
 
 		 // 写入数据
-		 row_stride = mat.cols() * 3;
+		 if (mat.channels() == 1) {
+			 row_stride = mat.cols();
+		 } else {
+			 row_stride = mat.cols() * 3;
+		 }
 		 JSAMPROW row_pointer[1];
 
 		 // 压缩过程使用的cinfo.next_scanline < cinfo.image_height来判断是否完成写入数据。

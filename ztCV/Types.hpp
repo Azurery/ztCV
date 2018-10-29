@@ -54,25 +54,28 @@ namespace ztCV {
 
 	//////////////// Vec_ /////////////////////////
 	template<typename Type, int n> Vec_<Type, n>::Vec_() {
-		for (int i = 0; i < n; i++) {
-			arr[i] = 0;
-		}
+// 		for (int i = 0; i < n; i++) {
+// 			arr[i] = 0;
+// 		}
+		memset(arr, 0, n);
 	}
 
 	template<typename Type, int n> Vec_<Type, n>::Vec_(Type vec0) {
 		assert(n >= 1);
 		arr[0] = vec0;
-		for (int i = 1; i < n; i++) {
-			arr[i] = 0;
-		}
+// 		for (int i = 1; i < n; i++) {
+// 			arr[i] = 0;
+// 		}
+		memset(arr + 1, 0, n - 1);
 	}
 
 	template<typename Type, int n> Vec_<Type, n>::Vec_(Type vec0, Type vec1) {
 		static_assert(n >= 2);
 		arr[0] = vec0, arr[1] = vec1;
-		for (int i = 2; i < n; i++) {
-			arr[i] = 0;
-		}
+// 		for (int i = 2; i < n; i++) {
+// 			arr[i] = 0;
+// 		}
+		memset(arr + 2, 0, n - 2);
 	}
 
 	template<typename Type, int n> Vec_<Type, n>::Vec_(Type vec0, Type vec1, Type vec2) {
@@ -157,6 +160,11 @@ namespace ztCV {
 		width_ = std::move(s.width_);
 		height_ = std::move(s.height_);
 		return *this;
+	}
+
+	template<typename Type>
+	bool Size_<Type>::operator==(const Size_& s) {
+		return (this->height_ == s.height_  && this->width_ == s.width_);
 	}
 
 	template<typename Type>

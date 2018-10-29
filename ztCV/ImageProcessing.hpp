@@ -82,9 +82,88 @@ namespace ztCV {
 		}
 	}
 
-		///////////////// implementation ///////////////
+	float rgb2gray(Vec3uc& rgb);
 
-		//////////////// box_filter ///////////////////
+
+	///////////////// 形态学滤波 //////////////////////////
+	Mat get_structuring_element(morphology_shape shape, Size kernel_size, Point anchor);
+
+	template<typename Type>
+	void morphology_operation(Mat_<Type>& src, Mat_<Type>& dest, Size size, morphology_type mor_type);
+
+	//************************************
+	// \method name:erode
+	//
+	// \brief:	dst(x, y) = min{ src(x + x′, y + y′),(x′, y′) : element(x′, y′)≠0 }
+	// 
+	//			腐蚀是求局部最小值的操作，腐蚀操作会使图像中的高亮区逐渐减小
+	//************************************
+	template<typename Type>
+	void erode(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
+	
+	
+	//************************************
+	// \method name:dilate
+	//
+	// \brief:	dst(x, y) = max{src(x + x′, y + y′),(x′, y′) :element(x′, y′)≠0}
+	//			
+	//			膨胀就是求局部最大值的操作。从数学角度来说，就是将图像与核进行卷积，计算核B覆盖区域的像素点的最大值，
+	//			并把这个最大值赋值给参考点指定的元素。这样就会使图像中的高亮区域逐渐增长。
+	//************************************
+	template<typename Type>
+	void dilate(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
+
+
+
+	//************************************
+	// \method name:open
+	//
+	// \brief:	dst=open(src,element)=dilate(erode(src,element))
+	//			先腐蚀后膨胀
+	//			
+	//			用于消除小物体，在纤细点处分离物体，并且在平滑较大物体的边界的同时不明显改变其面积，
+	//			同时抑制比结构元小的亮细节。 
+	//************************************
+	template<typename Type>
+	void open(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
+
+
+	//************************************
+	// \method name:close
+	//
+	// \brief:	dst=close(src,element)=erode(dilate(src,element))
+	//			先膨胀后腐蚀 
+	//			
+	//			用来填充物体内细小空洞、连接邻近物体、平滑其边界的同时并不明显改变其面积，
+	//			同时抑制比结构元小的暗细节
+	//************************************
+	template<typename Type>
+	void close(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
+
+	//************************************
+	// \method name:gradient
+	//
+	// \brief:	膨胀图和腐蚀图相减
+	// 
+	//			对二值化图像进行这一操作可以将边缘突出来，可以使用形态学梯度来保留物体的边缘轮廓
+	//************************************
+	template<typename Type>
+	void gradient(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
+
+	template<typename Type>
+	void tophat(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
+
+	template<typename Type>
+	void blackhat(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
+
+	template<typename Type>
+	void hitmiss(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
+
+
+	
+	///////////////// implementation ///////////////
+
+	//////////////// box_filter ///////////////////
 
 	template<typename Type>
 	void box_filter(const Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size, bool normalize, int border_type) {
@@ -140,32 +219,49 @@ namespace ztCV {
 		apply(src, dest, gaussian_kernel, border_type);
 	}
 
+#define SORT_COLOR(color) {\
+std::sort(color.begin(), color.end(), [](int a, int b) {return a < b; });\
+}
+
+ #define PROCESS_COLOR(buffer, src, red_sum, green_sum, blue_sum, i, j, k ,l, c)\
+ 	do{\
+ 		buffer.at<Vec3uc>(k + border, l + border)[c] = src.at<Vec3uc>(i + k, j + l)[c];\
+ 		auto pos = buffer.at<Vec3uc>(k + border, l + border);\
+ 		red_sum.push_back(pos[2]);\
+ 		green_sum.push_back(pos[1]);\
+ 		blue_sum.push_back(pos[0]); \
+ 	} while(0)
+
+	// FIXME:
 	template<typename Type>
 	void median_filter(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size) {
-		int dest_type = src.type();
 		int border = kernel_size.width_ / 2;
 		int rows = src.rows() - border;
 		int cols = src.cols() - border;
-		int buffer_size = std::pow(kernel_size.width_, 2);
-		dest.create(rows, cols, dest_type);
+		dest.create(src.rows(), src.cols(), src.type());
 		Mat buffer(kernel_size.width_, kernel_size.height_, CV_8UCC3);
 
 		for (int i = border; i < rows; i++) {
 			for (int j = border; j < cols; j++) {
 
+				std::vector<uint8_t> red_sum, green_sum, blue_sum;
 				for (int k = -border; k < border; k++) {
-					for (int l = -border; k < border; l++) {
+					for (int l = -border; l < border; l++) {
 						for (int c = 0; c < src.channels(); c++) {
-							buffer.at<Vec3uc>(k, l)[c] = src.at<Vec3uc>(i + k, j + l)[c];
+							PROCESS_COLOR(buffer, src, red_sum, green_sum, blue_sum, i, j, k, l, c);
 						}
 					}
 				}
 
-				//std::sort(buffer.);
+				SORT_COLOR(red_sum);
+				SORT_COLOR(green_sum);
+				SORT_COLOR(blue_sum);
+
+				int center = border + 1;
 				Vec3uc rgb = {
-					static_cast<uint8_t>(sum[2]),
-					static_cast<uint8_t>(sum[1]),
-					static_cast<uint8_t>(sum[0])
+					static_cast<uint8_t>(red_sum[center]),
+					static_cast<uint8_t>(green_sum[center]),
+					static_cast<uint8_t>(blue_sum[center])
 				};
 				dest.at<Vec3uc>(i, j) = rgb;
 			}
@@ -193,6 +289,122 @@ namespace ztCV {
 		}
 		return pos;
 	}
-}
 
+	float rgb2gray(Vec3uc& rgb) {
+		return (0.29900 * rgb[0] + 0.58700 * rgb[1] + 0.11400 * rgb[2]);
+	}
+
+	Mat get_structuring_element(morphology_shape shape, Size kernel_size, Point anchor) {
+		// 只支持三种形状的结构元（structuring element）
+		assert(shape == morphology_shape::MORPHOLOGY_RECTANGLE ||
+			shape == morphology_shape::MORPHOLOGY_CROSS ||
+			shape == morphology_shape::MORPHOLOGY_ELLIPSE);
+
+		int semimajor, minor;
+		// 当kernel为一个点时，就直接看成矩形
+		if (kernel_size == Size(1, 1)) {
+			shape = morphology_shape::MORPHOLOGY_RECTANGLE;
+		}
+
+		if (shape == morphology_shape::MORPHOLOGY_ELLIPSE) {
+			semimajor = kernel_size.width_ / 2;
+			minor = kernel_size.height_ / 2;
+			
+		}
+		// FIXEME:先忽略cross和ellipse
+		Mat mat(kernel_size, CV_8UCC1);
+		for (int i = 0; i < kernel_size.height_; i++) {
+			int j1 = 0, j2 = 0;
+			if (shape == morphology_shape::MORPHOLOGY_RECTANGLE) {
+				j2 = kernel_size.width_;
+				for (int j = 0; j < j2; j++) {
+					mat[i][j] = 1;
+				}
+			}
+// 			else if (shape == morphology_shape::MORPHOLOGY_CROSS) {
+// 
+// 			} else {
+// 				
+// 			}
+		}
+		return mat;
+	}
+
+	template<typename Type>
+	void morphology_operation(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size, morphology_type mor_type) {
+		dest.create(src.rows(), src.cols(), src.type());
+		Mat_<Type> buffer(kernel_size, src.type());
+
+		int border = kernel_size.width_ / 2;
+		int rows = src.rows() - border;
+		int cols = src.cols() - border;
+
+		for (int i = border; i < rows; i++) {
+			for (int j = border; j < cols; j++) {
+				std::vector<uint8_t> red_sum, green_sum, blue_sum;
+				for (int k = -border; k < border; k++) {
+					for (int l = -border; l < border; l++) {
+						for (int c = 0; c < src.channels(); c++) {
+							PROCESS_COLOR(buffer, src, red_sum, green_sum, blue_sum, i, j, k, l, c);
+						}
+					}
+				}
+
+				if (mor_type == morphology_type::MORPHOLOGY_ERODE) {
+					Vec3uc rgb = {
+						static_cast<uint8_t>(*std::min_element(red_sum.begin(),red_sum.end())),
+						static_cast<uint8_t>(*std::min_element(green_sum.begin(),green_sum.end())),
+						static_cast<uint8_t>(*std::min_element(blue_sum.begin(),blue_sum.end())),
+					};
+					dest.at<Vec3uc>(i, j) = rgb;
+				} else {
+					Vec3uc rgb = {
+						static_cast<uint8_t>(*std::max_element(red_sum.begin(),red_sum.end())),
+						static_cast<uint8_t>(*std::max_element(green_sum.begin(),green_sum.end())),
+						static_cast<uint8_t>(*std::max_element(blue_sum.begin(),blue_sum.end())),
+					};
+					dest.at<Vec3uc>(i, j) = rgb;
+				}
+			}
+			std::cout << i;
+		}
+	}
+
+
+	template<typename Type>
+	void erode(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size) {
+		morphology_operation(src, dest, kernel_size, morphology_type::MORPHOLOGY_ERODE);
+	}
+
+	template<typename Type>
+	void dilate(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size) {
+		morphology_operation(src, dest, kernel_size, morphology_type::MORPHOLOGY_DILATE);
+	}
+
+	template<typename Type>
+	void open(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size) {
+		dest.create(src.rows(), src.cols(), src.type());
+		erode(src, dest, kernel_size);
+		dilate(src, dest, kernel_size);
+	}
+
+	template<typename Type>
+	void close(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size) {
+		dest.create(src.rows(), src.cols(), src.type());
+		dilate(src, dest, kernel_size);
+		erode(src, dest, kernel_size);
+	}
+
+	template<typename Type>
+	void gradient(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size) {
+		auto src_img = src;
+		Mat_<Type> dilate_ret, erode_ret;
+		dilate(src, dilate_ret, kernel_size);
+		erode(src, erode_ret, kernel_size);
+		dest = dilate_ret - erode_ret;
+	}
+
+
+
+}
 #endif

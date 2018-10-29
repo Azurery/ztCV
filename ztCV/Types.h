@@ -154,6 +154,7 @@ namespace ztCV {
 
 		Size_& operator=(const Size_& s);
 		Size_& operator=(Size_&& s) noexcept;
+		bool operator==(const Size_& s);
 
 		Type area() const;
 		bool empty() const;

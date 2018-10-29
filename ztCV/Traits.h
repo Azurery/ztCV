@@ -50,6 +50,17 @@ enum class border_type {
 	BORDER_CONSTANT   // iiiiii | abcdefgh | iiiiiii
 };
 
+enum class morphology_shape {
+	MORPHOLOGY_RECTANGLE,
+	MORPHOLOGY_CROSS,
+	MORPHOLOGY_ELLIPSE
+};
+
+enum class morphology_type {
+	MORPHOLOGY_ERODE,
+	MORPHOLOGY_DILATE
+};
+
 namespace ztCV {
 	/**
 	*  @brief  cv_depth这个enum表示图像深度。

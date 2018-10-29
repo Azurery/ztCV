@@ -156,7 +156,40 @@
 	 median_filter(src, dest, Size(3, 3));
 	 const char* dest_file = "D:\\2.jpg";
 	 write_image(dest_file, dest);
+ }
 
+ static void test_rgb2gray() {
+	 const char* src_file = "D:\\pic.jpg";
+	 Mat src = read_image(src_file);
+	 Mat dest;
+	 dest.create(src.rows(), src.cols(), CV_8UCC1);
+	 for (int i = 0; i < src.rows(); i++) {
+		 for (int j = 0; j < src.cols(); j++) {
+			 dest.at<uint8_t>(i, j) = rgb2gray(src.at<Vec3uc>(i, j));
+		 }
+	 }
+	 const char* dest_file = "D:\\2.jpg";
+	 write_image(dest_file, dest);
+ }
+
+ static void test_erode() {
+	 const char* src_file = "D:\\pic.jpg";
+	 Mat src = read_image(src_file);
+	 Mat dest;
+	 erode(src, dest, Size(3, 3));
+	 const char* dest_file = "D:\\2.jpg";
+	 write_image(dest_file, dest);
+ }
+
+ static void test_morphology() {
+	 const char* src_file = "D:\\pic.jpg";
+	 Mat src = read_image(src_file);
+	 Mat dest;
+	 open(src, dest, Size(3, 3));
+	 //close(src, dest, Size(3, 3));
+	 //gradient(src, dest, Size(3, 3));
+	 const char* dest_file = "D:\\2.jpg";
+	 write_image(dest_file, dest);
  }
 
  static void test() {
@@ -167,7 +200,10 @@
 // 	test_write_image();
 //	 test_gaussian_blur();
 //	 test_box_filter();
-	 test_median_filter();
+//	 test_median_filter();
+//	 test_rgb2gray();
+//	 test_erode();
+	 test_morphology();
  }
  
  int main() {

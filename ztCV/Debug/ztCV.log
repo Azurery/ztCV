@@ -1,0 +1,34 @@
+﻿  Test.cpp
+d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(199): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(206): warning C4244: “/=”: 从“double”转换到“float”，可能丢失数据
+d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(294): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+d:\programming\projects\c++\ztcv\ztcv\test.cpp(47): warning C4477: “fprintf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 4 拥有了类型“double”
+d:\programming\projects\c++\ztcv\ztcv\test.cpp(168): warning C4244: “=”: 从“float”转换到“uint8_t”，可能丢失数据
+d:\programming\projects\c++\ztcv\ztcv\mat.hpp(259): warning C4018: “<=”: 有符号/无符号不匹配
+  d:\programming\projects\c++\ztcv\ztcv\rwimage.hpp(62): note: 参见对正在编译的函数 模板 实例化“Type2 &ztCV::Mat_<uint8_t>::at<float>(int,int)”的引用
+          with
+          [
+              Type2=float
+          ]
+  d:\programming\projects\c++\ztcv\ztcv\rwimage.hpp(62): note: 参见对正在编译的函数 模板 实例化“Type2 &ztCV::Mat_<uint8_t>::at<float>(int,int)”的引用
+          with
+          [
+              Type2=float
+          ]
+d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(175): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  d:\programming\projects\c++\ztcv\ztcv\test.cpp(146): note: 参见对正在编译的函数 模板 实例化“void ztCV::box_filter<uint8_t>(const ztCV::Mat_<uint8_t> &,ztCV::Mat_<uint8_t> &,ztCV::Size,bool,int)”的引用
+d:\programming\projects\c++\ztcv\ztcv\mat.hpp(266): warning C4018: “<=”: 有符号/无符号不匹配
+  d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(53): note: 参见对正在编译的函数 模板 实例化“const Type2 &ztCV::Mat_<uint8_t>::at<float>(int,int) const”的引用
+          with
+          [
+              Type2=float
+          ]
+  d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(53): note: 参见对正在编译的函数 模板 实例化“const Type2 &ztCV::Mat_<uint8_t>::at<float>(int,int) const”的引用
+          with
+          [
+              Type2=float
+          ]
+  d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(219): note: 参见对正在编译的函数 模板 实例化“void ztCV::apply<uint8_t,float>(const ztCV::Mat_<uint8_t> &,ztCV::Mat_<uint8_t> &,ztCV::Mat_<float> &,int)”的引用
+  d:\programming\projects\c++\ztcv\ztcv\test.cpp(127): note: 参见对正在编译的函数 模板 实例化“void ztCV::gaussian_blur<uint8_t>(ztCV::Mat_<uint8_t> &,ztCV::Mat_<uint8_t> &,ztCV::Size,double,double,int)”的引用
+d:\programming\projects\c++\ztcv\ztcv\rwimage.hpp(133): warning C4715: “ztCV::write_image”: 不是所有的控件路径都返回值
+  ztCV.vcxproj -> D:\Programming\Projects\C++\ztCV\Debug\ztCV.exe

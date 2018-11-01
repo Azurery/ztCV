@@ -46,9 +46,4 @@
       <Filter>imgprocess</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\..\..\..\2.jpg">
-      <Filter>test</Filter>
-    </Image>
-  </ItemGroup>
 </Project>

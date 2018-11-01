@@ -143,6 +143,7 @@ namespace ztCV {
 		}
 	}
 
+
 // 	template<typename Type>
 // 	Mat_<Type>::Mat_(int dims, const uint32_t* arr, int type) {
 // 		assert(dims >= 0 && arr);
@@ -163,6 +164,16 @@ namespace ztCV {
 		}
 		return *this;
   	}
+
+	template<typename Type>
+	Mat_<Type>& Mat_<Type>::operator=(const std::initializer_list<int8_t>& value) {
+		size_t index = 0;
+		for (auto& iter : value) {
+			this->data_ptr_[index] = iter;
+			index++;
+		}
+		return *this;
+	}
 
 	template<typename Type>
 	Mat_<Type>::~Mat_() {
@@ -244,7 +255,7 @@ namespace ztCV {
 	}
 
 	template<typename Type>
-	size_t Mat_<Type>::size() const {
+	size_t Mat_<Type>::nums() const {
 		return total();
 	}
 	
@@ -333,7 +344,7 @@ namespace ztCV {
 	template<typename Type>
 	void Mat_<Type>::set_value(Type value) {
 		// 当有多行时
-		const int total_size = size();
+		const int total_size = nums();
 			for (int i = 0; i < total_size; i++) {
 				reinterpret_cast<Type*>(data_ptr_)[i] = value;
 		}
@@ -359,11 +370,83 @@ namespace ztCV {
 	}
 
 	template<typename Type>
-	Mat_<Type>& operator-(const Mat_<Type>& src, const Mat_<Type>& dest) {
-		Mat_<Type> tmp(src.clone());
+	Mat_<Type>& operator-(Mat_<Type>& src, Mat_<Type>& dest) {
+		//Mat_<Type> tmp(src.clone());
+		int channels = src.channels();
 		for (int i = 0; i < src.rows(); i++) {
+			//const uint8_t* src_row = src.ptr(i);
+			for (int j = 0; j < src.cols(); j++) {
+				for (int c = 0; c < channels; c++) {
+					dest.at<Vec3uc>(i, j)[c] -= src.at<Vec3uc>(i, j)[c];
+				}
+			}
+		}
+		return dest;
+	}
+
+	template<typename Type>
+	const Size Mat_<Type>::size() const {
+		return Size(this->rows(), this->cols());
+	}
+
+	template<typename Type>
+	Type* Mat_<Type>::ptr(int row) {
+		assert(row < this->rows_);
+		return reinterpret_cast<Type*>(data_ptr_ + row * layer_[0]);
+	}
+
+	template<typename Type>
+	const Type* Mat_<Type>::ptr(int row) const {
+		assert(row < this->rows_);
+		return reinterpret_cast<Type*>(data_ptr_ + row * layer_[0]);
+	}
+
+	template<typename Type>
+	template<typename Type2>
+	Type2* Mat_<Type>::ptr(int row) {
+		assert(row < this->rows_);
+		return reinterpret_cast<Type2*>(data_ptr_ + row * layer_[0]);
+	}
+
+	template<typename Type>
+	template<typename Type2>
+	const Type2* Mat_<Type>::ptr(int row) const {
+		assert(row < this->rows_);
+		return reinterpret_cast<Type2*>(data_ptr_ + row * layer_[0]);
+	}
+
+	template<typename Type>
+	void Mat_<Type>::interpolation_nearest(Mat_<Type>& src, Mat_<Type>& dest) {
+		Size src_size = src.size();
+		Size dest_size = dest.size();
+		double scale_x, scale_y;
+		if (dest_size.empty()) {
+			dest_size = Size(src_size.width_*scale_x,
+				src_size.height_*sclae_y);
+			assert(dest_size.empty() != nullptr);
+		}
+		else {
+			scale_x = static_cast<double>(dest_size.width_ / src_size.width_);
+			scale_y = static_cast<double>(dest_size.height_ / src_size.height_);
+		}
+
+		int src_x_buffer[dest_size] = { 0 };
+		for (int x = 0; x < dest_size.width_; x++) {
 
 		}
+		double invert_scale_x = 1 / scale_x, invert_scale_y = 1 / scale_y;
+		for (int j = 0; j < dest_size.height_; j++) {
+			int src_y = std::min(std::floor(j*invert_scale_y), src_size.height_ - 1);
+			const uint8_t* src_row = src.ptr(src_y);
+			for (int i = 0; i < dest_size.width_; i++) {
+				auto tmp = src_row[i];
+			}
+		}
+	}
+
+	template<typename Type>
+	void Mat_<Type>::resize(Mat_<Type>& src, Mat_<Type>& dest, interpolation_type inter_type /*= interpolation_type::INTERPOLATION_BILINEAR*/) {
+		
 	}
 
 

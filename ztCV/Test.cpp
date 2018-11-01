@@ -92,7 +92,7 @@
   	EXPECT_EQ_INT(1, mat.channels());
   	EXPECT_EQ_INT(1, mat.channel_size());
   	EXPECT_EQ_INT(CV_8UCC1, mat.type());
-  	EXPECT_EQ_INT(2 * 2, mat.size());
+  	EXPECT_EQ_INT(2 * 2, mat.nums());
   	EXPECT_TRUE(mat.is_continuous());
   	EXPECT_FALSE(mat.empty());
  	TEST_MAT_ZEROS_BASE(4, 4, CV_8UCC1);
@@ -162,12 +162,7 @@
 	 const char* src_file = "D:\\pic.jpg";
 	 Mat src = read_image(src_file);
 	 Mat dest;
-	 dest.create(src.rows(), src.cols(), CV_8UCC1);
-	 for (int i = 0; i < src.rows(); i++) {
-		 for (int j = 0; j < src.cols(); j++) {
-			 dest.at<uint8_t>(i, j) = rgb2gray(src.at<Vec3uc>(i, j));
-		 }
-	 }
+	 rgb2gray(src, dest);
 	 const char* dest_file = "D:\\2.jpg";
 	 write_image(dest_file, dest);
  }
@@ -182,12 +177,32 @@
  }
 
  static void test_morphology() {
+	 const char* src_file = "D:\\test.jpg";
+	 Mat src = read_image(src_file);
+	 Mat dest;
+	 //open(src, dest, Size(3, 3));
+	 //close(src, dest, Size(3, 3));
+	 //gradient(src, dest, Size(3, 3));
+	 tophat(src, dest, Size(3, 3));
+	 const char* dest_file = "D:\\2.jpg";
+	 write_image(dest_file, dest);
+ }
+
+ static void test_threshold() {
+	 const char* src_file = "D:\\pic.jpg";
+	 Mat src = read_image(src_file);
+	 Mat dest, tmp;
+	 rgb2gray(src, tmp);
+	 threshold(tmp, dest, 127, 255, threshold_type::THRESHOLD_BINARY);
+	 const char* dest_file = "D:\\2.jpg";
+	 write_image(dest_file, dest);
+ }
+
+ static void test_sobel() {
 	 const char* src_file = "D:\\pic.jpg";
 	 Mat src = read_image(src_file);
 	 Mat dest;
-	 open(src, dest, Size(3, 3));
-	 //close(src, dest, Size(3, 3));
-	 //gradient(src, dest, Size(3, 3));
+	 sobel(src, dest, Size(3,3));
 	 const char* dest_file = "D:\\2.jpg";
 	 write_image(dest_file, dest);
  }
@@ -201,9 +216,11 @@
 //	 test_gaussian_blur();
 //	 test_box_filter();
 //	 test_median_filter();
-//	 test_rgb2gray();
+	 test_rgb2gray();
 //	 test_erode();
-	 test_morphology();
+//	 test_morphology();
+//	 test_threshold();
+//	 test_sobel();
  }
  
  int main() {

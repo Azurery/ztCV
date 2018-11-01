@@ -61,6 +61,22 @@ enum class morphology_type {
 	MORPHOLOGY_DILATE
 };
 
+enum class interpolation_type {
+	INTERPOLATION_NEAREST,		// 最近邻插值
+	INTERPOLATION_BILINEAR,		// 双线性插值(缺省使用)
+	INTERPOLATION_AREA,			// 使用象素关系重采样。当图像缩小时候，该方法可以避免波纹出现；当图像放大时，类似于INTERPOLATION_NEAREST方法
+	INTERPOLATION_CUBIC			// 双三次插值
+};
+
+enum class threshold_type {
+	THRESHOLD_BINARY,		//dst(x,y)={ maxval,if src(x,y)>thresh;			 0,		   otherwise}
+	THRESHOLD_BINARY_INVERT,//dst(x,y)={ 0,		if src(x,y)>thresh;			 maxval,   otherwise}
+	THRESHOLD_TRUNCATE,		//dst(x,y)={ threshold,		if src(x,y)>thresh;	 src(x,y), otherwise}
+	THRESHOLD_TOZERO,			//dst(x,y)={ src(x,y),		if src(x,y)>thresh;	 0,		   otherwise}
+	THRESHOLD_TOZERO_INVERT,//dst(x,y)={ 0,				if src(x,y)>thresh;	 src(x,y), otherwise}
+	THRESHOLD_TRIANGLE
+};
+
 namespace ztCV {
 	/**
 	*  @brief  cv_depth这个enum表示图像深度。

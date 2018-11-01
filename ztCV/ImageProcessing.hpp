@@ -1,4 +1,4 @@
-#ifndef _ZT_CV_IMAGE_PROCESSING_H_
+ï»¿#ifndef _ZT_CV_IMAGE_PROCESSING_H_
 #define _ZT_CV_IMAGE_PROCESSING_H_
 
 #include "Mat.h"
@@ -82,10 +82,11 @@ namespace ztCV {
 		}
 	}
 
-	float rgb2gray(Vec3uc& rgb);
+	template<typename Type>
+	void rgb2gray(Mat_<Type>& src, Mat_<Type>& dest);
 
 
-	///////////////// ĞÎÌ¬Ñ§ÂË²¨ //////////////////////////
+	///////////////// å½¢æ€å­¦æ»¤æ³¢ //////////////////////////
 	Mat get_structuring_element(morphology_shape shape, Size kernel_size, Point anchor);
 
 	template<typename Type>
@@ -94,9 +95,9 @@ namespace ztCV {
 	//************************************
 	// \method name:erode
 	//
-	// \brief:	dst(x, y) = min{ src(x + x¡ä, y + y¡ä),(x¡ä, y¡ä) : element(x¡ä, y¡ä)¡Ù0 }
+	// \brief:	dst(x, y) = min{ src(x + xâ€², y + yâ€²),(xâ€², yâ€²) : element(xâ€², yâ€²)â‰ 0 }
 	// 
-	//			¸¯Ê´ÊÇÇó¾Ö²¿×îĞ¡ÖµµÄ²Ù×÷£¬¸¯Ê´²Ù×÷»áÊ¹Í¼ÏñÖĞµÄ¸ßÁÁÇøÖğ½¥¼õĞ¡
+	//			è…èš€æ˜¯æ±‚å±€éƒ¨æœ€å°å€¼çš„æ“ä½œï¼Œè…èš€æ“ä½œä¼šä½¿å›¾åƒä¸­çš„é«˜äº®åŒºé€æ¸å‡å°
 	//************************************
 	template<typename Type>
 	void erode(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
@@ -105,10 +106,10 @@ namespace ztCV {
 	//************************************
 	// \method name:dilate
 	//
-	// \brief:	dst(x, y) = max{src(x + x¡ä, y + y¡ä),(x¡ä, y¡ä) :element(x¡ä, y¡ä)¡Ù0}
+	// \brief:	dst(x, y) = max{src(x + xâ€², y + yâ€²),(xâ€², yâ€²) :element(xâ€², yâ€²)â‰ 0}
 	//			
-	//			ÅòÕÍ¾ÍÊÇÇó¾Ö²¿×î´óÖµµÄ²Ù×÷¡£´ÓÊıÑ§½Ç¶ÈÀ´Ëµ£¬¾ÍÊÇ½«Í¼ÏñÓëºË½øĞĞ¾í»ı£¬¼ÆËãºËB¸²¸ÇÇøÓòµÄÏñËØµãµÄ×î´óÖµ£¬
-	//			²¢°ÑÕâ¸ö×î´óÖµ¸³Öµ¸ø²Î¿¼µãÖ¸¶¨µÄÔªËØ¡£ÕâÑù¾Í»áÊ¹Í¼ÏñÖĞµÄ¸ßÁÁÇøÓòÖğ½¥Ôö³¤¡£
+	//			è†¨èƒ€å°±æ˜¯æ±‚å±€éƒ¨æœ€å¤§å€¼çš„æ“ä½œã€‚ä»æ•°å­¦è§’åº¦æ¥è¯´ï¼Œå°±æ˜¯å°†å›¾åƒä¸æ ¸è¿›è¡Œå·ç§¯ï¼Œè®¡ç®—æ ¸Bè¦†ç›–åŒºåŸŸçš„åƒç´ ç‚¹çš„æœ€å¤§å€¼ï¼Œ
+	//			å¹¶æŠŠè¿™ä¸ªæœ€å¤§å€¼èµ‹å€¼ç»™å‚è€ƒç‚¹æŒ‡å®šçš„å…ƒç´ ã€‚è¿™æ ·å°±ä¼šä½¿å›¾åƒä¸­çš„é«˜äº®åŒºåŸŸé€æ¸å¢é•¿ã€‚
 	//************************************
 	template<typename Type>
 	void dilate(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
@@ -119,10 +120,10 @@ namespace ztCV {
 	// \method name:open
 	//
 	// \brief:	dst=open(src,element)=dilate(erode(src,element))
-	//			ÏÈ¸¯Ê´ºóÅòÕÍ
+	//			å…ˆè…èš€åè†¨èƒ€
 	//			
-	//			ÓÃÓÚÏû³ıĞ¡ÎïÌå£¬ÔÚÏËÏ¸µã´¦·ÖÀëÎïÌå£¬²¢ÇÒÔÚÆ½»¬½Ï´óÎïÌåµÄ±ß½çµÄÍ¬Ê±²»Ã÷ÏÔ¸Ä±äÆäÃæ»ı£¬
-	//			Í¬Ê±ÒÖÖÆ±È½á¹¹ÔªĞ¡µÄÁÁÏ¸½Ú¡£ 
+	//			ç”¨äºæ¶ˆé™¤å°ç‰©ä½“ï¼Œåœ¨çº¤ç»†ç‚¹å¤„åˆ†ç¦»ç‰©ä½“ï¼Œå¹¶ä¸”åœ¨å¹³æ»‘è¾ƒå¤§ç‰©ä½“çš„è¾¹ç•Œçš„åŒæ—¶ä¸æ˜æ˜¾æ”¹å˜å…¶é¢ç§¯ï¼Œ
+	//			åŒæ—¶æŠ‘åˆ¶æ¯”ç»“æ„å…ƒå°çš„äº®ç»†èŠ‚ã€‚ 
 	//************************************
 	template<typename Type>
 	void open(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
@@ -132,10 +133,10 @@ namespace ztCV {
 	// \method name:close
 	//
 	// \brief:	dst=close(src,element)=erode(dilate(src,element))
-	//			ÏÈÅòÕÍºó¸¯Ê´ 
+	//			å…ˆè†¨èƒ€åè…èš€ 
 	//			
-	//			ÓÃÀ´Ìî³äÎïÌåÄÚÏ¸Ğ¡¿Õ¶´¡¢Á¬½ÓÁÚ½üÎïÌå¡¢Æ½»¬Æä±ß½çµÄÍ¬Ê±²¢²»Ã÷ÏÔ¸Ä±äÆäÃæ»ı£¬
-	//			Í¬Ê±ÒÖÖÆ±È½á¹¹ÔªĞ¡µÄ°µÏ¸½Ú
+	//			ç”¨æ¥å¡«å……ç‰©ä½“å†…ç»†å°ç©ºæ´ã€è¿æ¥é‚»è¿‘ç‰©ä½“ã€å¹³æ»‘å…¶è¾¹ç•Œçš„åŒæ—¶å¹¶ä¸æ˜æ˜¾æ”¹å˜å…¶é¢ç§¯ï¼Œ
+	//			åŒæ—¶æŠ‘åˆ¶æ¯”ç»“æ„å…ƒå°çš„æš—ç»†èŠ‚
 	//************************************
 	template<typename Type>
 	void close(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
@@ -143,9 +144,9 @@ namespace ztCV {
 	//************************************
 	// \method name:gradient
 	//
-	// \brief:	ÅòÕÍÍ¼ºÍ¸¯Ê´Í¼Ïà¼õ
+	// \brief:	è†¨èƒ€å›¾å’Œè…èš€å›¾ç›¸å‡
 	// 
-	//			¶Ô¶şÖµ»¯Í¼Ïñ½øĞĞÕâÒ»²Ù×÷¿ÉÒÔ½«±ßÔµÍ»³öÀ´£¬¿ÉÒÔÊ¹ÓÃĞÎÌ¬Ñ§Ìİ¶ÈÀ´±£ÁôÎïÌåµÄ±ßÔµÂÖÀª
+	//			å¯¹äºŒå€¼åŒ–å›¾åƒè¿›è¡Œè¿™ä¸€æ“ä½œå¯ä»¥å°†è¾¹ç¼˜çªå‡ºæ¥ï¼Œå¯ä»¥ä½¿ç”¨å½¢æ€å­¦æ¢¯åº¦æ¥ä¿ç•™ç‰©ä½“çš„è¾¹ç¼˜è½®å»“
 	//************************************
 	template<typename Type>
 	void gradient(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
@@ -159,8 +160,28 @@ namespace ztCV {
 	template<typename Type>
 	void hitmiss(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
 
+	template<typename Type>
+	void threshold_8u(const Mat_<Type>& src, Mat_<Type>& dest, uint8_t threshold, uint8_t max_pixel, threshold_type type);
+
+	template<typename Type>
+	void threshold_32f(const Mat_<Type>& src, Mat_<Type>& dest, float threshold, float max_pixel, threshold_type type);
+	//************************************
+	// \method name:threshold
+	// \parameter:	threshold	é˜ˆå€¼
+	// \parameter:	max_pixel	destä¸­æœ€å¤§çš„åƒç´ å€¼
+	// \parameter:	type		é˜ˆå€¼çš„ç±»å‹
+	//
+	// \brief:	è¯¥å‡½æ•°çš„å…¸å‹åº”ç”¨æ˜¯å¯¹ç°åº¦å›¾åƒè¿›è¡Œé˜ˆå€¼æ“ä½œå¾—åˆ°äºŒå€¼å›¾åƒï¼Œ
+	//		æˆ–è€…æ˜¯å»æ‰å™ªå£°ï¼Œä¾‹å¦‚è¿‡æ»¤å¾ˆå°æˆ–å¾ˆå¤§è±¡ç´ å€¼çš„å›¾åƒç‚¹ã€‚
+	//************************************
+	template<typename Type>
+	void threshold(Mat_<Type>& src, Mat_<Type>& dest, double threshold, double max_pixel, threshold_type type);
+
+	template<typename Type>
+	void sobel(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
 
 	
+
 	///////////////// implementation ///////////////
 
 	//////////////// box_filter ///////////////////
@@ -290,18 +311,25 @@ std::sort(color.begin(), color.end(), [](int a, int b) {return a < b; });\
 		return pos;
 	}
 
-	float rgb2gray(Vec3uc& rgb) {
-		return (0.29900 * rgb[0] + 0.58700 * rgb[1] + 0.11400 * rgb[2]);
+	template<typename Type>
+	void rgb2gray(Mat_<Type>& src, Mat_<Type>& dest) {
+		dest.create(src.size(), CV_8UCC1);
+		for (int i = 0; i < src.rows(); i++) {
+			for (int j = 0; j < src.cols(); j++) {
+				Vec3uc& rgb = src.at<Vec3uc>(i, j);
+				dest.at<uint8_t>(i, j) = 0.29900 * rgb[0] + 0.58700 * rgb[1] + 0.11400 * rgb[2];
+			}
+		}
 	}
 
 	Mat get_structuring_element(morphology_shape shape, Size kernel_size, Point anchor) {
-		// Ö»Ö§³ÖÈıÖÖĞÎ×´µÄ½á¹¹Ôª£¨structuring element£©
+		// åªæ”¯æŒä¸‰ç§å½¢çŠ¶çš„ç»“æ„å…ƒï¼ˆstructuring elementï¼‰
 		assert(shape == morphology_shape::MORPHOLOGY_RECTANGLE ||
 			shape == morphology_shape::MORPHOLOGY_CROSS ||
 			shape == morphology_shape::MORPHOLOGY_ELLIPSE);
 
 		int semimajor, minor;
-		// µ±kernelÎªÒ»¸öµãÊ±£¬¾ÍÖ±½Ó¿´³É¾ØĞÎ
+		// å½“kernelä¸ºä¸€ä¸ªç‚¹æ—¶ï¼Œå°±ç›´æ¥çœ‹æˆçŸ©å½¢
 		if (kernel_size == Size(1, 1)) {
 			shape = morphology_shape::MORPHOLOGY_RECTANGLE;
 		}
@@ -311,7 +339,7 @@ std::sort(color.begin(), color.end(), [](int a, int b) {return a < b; });\
 			minor = kernel_size.height_ / 2;
 			
 		}
-		// FIXEME:ÏÈºöÂÔcrossºÍellipse
+		// FIXEME:å…ˆå¿½ç•¥crosså’Œellipse
 		Mat mat(kernel_size, CV_8UCC1);
 		for (int i = 0; i < kernel_size.height_; i++) {
 			int j1 = 0, j2 = 0;
@@ -400,10 +428,150 @@ std::sort(color.begin(), color.end(), [](int a, int b) {return a < b; });\
 		auto src_img = src;
 		Mat_<Type> dilate_ret, erode_ret;
 		dilate(src, dilate_ret, kernel_size);
-		erode(src, erode_ret, kernel_size);
+		erode(src_img, erode_ret, kernel_size);
 		dest = dilate_ret - erode_ret;
 	}
 
+	template<typename Type>
+	void tophat(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size) {
+		auto src_img = src;
+		Mat_<Type> open_ret;
+		open(src_img, open_ret, kernel_size);
+		dest = src - open_ret;
+	}
+
+	template<typename Type>
+	void blackhat(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size) {
+		auto src_img = src;
+		Mat_<Type> close_ret;
+		close(src_img, close_ret, kernel_size);
+		dest = close_ret - src;
+	}
+
+
+	template<typename Type>
+	void threshold_8u(const Mat_<Type>& src, Mat_<Type>& dest, uint8_t threshold, uint8_t max_pixel, threshold_type type) {
+		assert(src.channels() == 1);
+		int channels = src.channels();
+		switch (type) {
+		case threshold_type::THRESHOLD_BINARY:
+			for (int i = 0; i < src.rows(); i++) {
+				for (int j = 0; j < src.cols(); j++) {
+					for (int c = 0; c < channels; c++) {
+						dest.at<uint8_t>(i, j)= (src.at<uint8_t>(i, j)> threshold ? max_pixel : 0);
+					}
+				}
+			}
+			break;
+		case threshold_type::THRESHOLD_BINARY_INVERT:
+			for (int i = 0; i < src.rows(); i++) {
+				for (int j = 0; j < src.cols(); j++) {
+					dest.at<uint8_t>(i, j) = (src.at<uint8_t>(i, j) > threshold ? max_pixel : 0);
+				}
+			}
+			break;
+		case threshold_type::THRESHOLD_TRUNCATE:
+			for (int i = 0; i < src.rows(); i++) {
+				for (int j = 0; j < src.cols(); j++) {
+					dest.at<uint8_t>(i, j) = (src.at<uint8_t>(i, j) > threshold ? threshold : src.at<uint8_t>(i, j));
+				}
+			}
+			break;
+		case threshold_type::THRESHOLD_TOZERO:
+			for (int i = 0; i < src.rows(); i++) {
+				for (int j = 0; j < src.cols(); j++) {
+					dest.at<uint8_t>(i, j) = (dest.at<uint8_t>(i, j) > threshold ? src.at<uint8_t>(i, j) : 0);
+				}
+			}
+			break;
+		case threshold_type::THRESHOLD_TOZERO_INVERT:
+			for (int i = 0; i < src.rows(); i++) {
+				for (int j = 0; j < src.cols(); j++) {
+					dest.at<uint8_t>(i, j) = (dest.at<uint8_t>(i, j) > threshold ? 0 : src.at<uint8_t>(i, j) );
+				}
+			}
+			break;
+		}
+	}
+
+// 	template<typename Type>
+// 	void threshold_32f(const Mat_<Type>& src, Mat_<Type>& dest, uint8_t threshold, uint8_t max_pixel, threshold_type type) {
+// 		
+// 	}
+
+
+	template<typename Type>
+	void threshold(Mat_<Type>& src, Mat_<Type>& dest, double threshold, double max_pixel, threshold_type type) {
+		dest.create(src.size(), src.type());
+// 		if (src.depth() == uint8_t) {
+// 			threshold = std::floor(threshold);
+// 			max_pixel = std::round(max_pixel);
+// 			if (threshold < 0 || threshold>255) {
+// 				if(type==threshold_type::THRESHOLD_BINARY||
+// 					type==threshold_type::THRESHOLD_BINARY_INVERT||
+// 					)
+// 			}
+		if (src.depth() == sizeof(uint8_t)) 
+			 threshold_8u(src, dest, threshold, max_pixel, type);
+// 		} else {
+// 			threshold_32f(src, dest, threshold, max_pixel, type);
+// 		}
+	}
+
+	template<typename Type>
+	void sobel(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size) {
+		dest.create(src.size(), src.type());
+		Matuc Gx(kernel_size, CV_8UCC1), Gy(kernel_size, CV_8UCC1);
+		int channels = src.channels();
+		int* temp_Gx = new int[channels];
+		int* temp_Gy = new int[channels];
+		int* temp_G = new int[channels];
+
+		switch (kernel_size.width_) {
+		case 3:
+			Gx = { -3, -10, -3,
+					0,  0,   0,
+				   +3, +10, +3
+			};
+			Gy = { -3, 0, +3,
+				  -10, 0, +10,
+				   -3, 0, +3
+			};
+			break;
+		case 5:
+			// impl
+			break;
+		case 7:
+			// impl
+			break;
+			
+		}
+
+		int border = kernel_size.width_ / 2;
+		int rows = src.rows() - border;
+		int cols = src.cols() - border;
+		for (int i = border; i < rows; i++) {
+			for (int j = border; j < cols; j++) {
+				memset(temp_Gx, 0, channels * sizeof(int));
+				memset(temp_Gy, 0, channels * sizeof(int));
+				memset(temp_G, 0, channels * sizeof(int));
+			
+				for (int k = -border; k < border; k++) {
+					for (int l = -border; l < border; l++) {
+						for (int c = 0; c < channels; c++) {
+							temp_Gx[c] += src.at<Vec3uc>(i + k, j + l)[c] * Gx[k + border][l + border];
+							temp_Gy[c] += src.at<Vec3uc>(i + k, j + l)[c] * Gy[k + border][l + border];
+						}
+					}
+				}
+
+				for (int c = 0; c < channels; c++) {
+					dest.at<Vec3uc>(i, j)[c] = static_cast<uint8_t>(std::sqrt(temp_Gx[c] * temp_Gy[c]));
+				}
+			}
+			std::cout << i;
+		}
+	}
 
 
 }

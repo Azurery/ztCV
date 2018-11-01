@@ -63,7 +63,7 @@ namespace ztCV {
 		Mat_(int rows, int cols, int type, const Scalar& s);
 
 		Mat_(Size size, int type, const Scalar& s);
-
+		Mat_(std::initializer_list<uint8_t>& pixel_list);
 		Mat_(int dims, const uint32_t* arr, int type);
 		
 		Mat_(int dims, const uint32_t* arr, int type, const Scalar& s);
@@ -76,6 +76,7 @@ namespace ztCV {
 
 		Mat_& operator=(const Mat_& m);
 		Mat_& operator=(const Scalar& s);
+		Mat_& operator=(const std::initializer_list<int8_t>& value);
 
 		void free();
 		int add_reference_counter(int* counter, int num);
@@ -98,7 +99,7 @@ namespace ztCV {
 		//************************************
 		size_t total() const;
 		size_t total(int dim_begin, int dim_end) const;
-		size_t size() const;
+		size_t nums() const;
 
 		//************************************
 		// \method name:at
@@ -187,6 +188,23 @@ namespace ztCV {
 		void set_value(Type value);
 		template<typename Type2> void set_value(const Scalar& s);
 
+		void resize(Mat_<Type>& src, Mat_<Type>& dest, interpolation_type inter_type = interpolation_type::INTERPOLATION_BILINEAR);
+		const Size size() const;
+
+		Type* ptr(int row);
+		const Type* ptr(int row) const;
+
+		template<typename Type2> Type2* ptr(int row);
+		template<typename Type2> const Type2* ptr(int row) const;
+
+		Type* ptr(int row, int col);
+		const Type* ptr(int row, int col) const;
+		
+		template<typename Type2> Type2* ptr(int row, int col);
+		template<typename Type2> const Type2* ptr(int row, int col) const;
+
+		void interpolation_nearest(Mat_<Type>& src, Mat_<Type>& dest);
+
 
 		// Êý¾ÝÖ¸Õë
 		uint8_t* data_ptr_;
@@ -259,6 +277,10 @@ private:
 	using Matf = Mat_<float>;
 	using Matd = Mat_<double>;
 	using Mat = Matuc;
+
+	template<typename Type>
+	Mat_<Type>& operator-(Mat_<Type>& src, Mat_<Type>& dest);
+
 
 	template<typename Type>
 	class mat_const_iterator {

@@ -3,7 +3,8 @@
 #include <cstdint>
 #include <cstdlib>
 
-
+#define SIFT_INITIAL_SIGMA (0.5f)
+#define Pi (3.141592654)
 #define MAT_FLAGS_MASK (1<<12)
 #define MAKE_TYPE(depth,channels) ((depth)&(00000111)|((channels)<<3))
 
@@ -75,6 +76,13 @@ enum class threshold_type {
 	THRESHOLD_TOZERO,			//dst(x,y)={ src(x,y),		if src(x,y)>thresh;	 0,		   otherwise}
 	THRESHOLD_TOZERO_INVERT,//dst(x,y)={ 0,				if src(x,y)>thresh;	 src(x,y), otherwise}
 	THRESHOLD_TRIANGLE
+};
+
+enum class dft_type {
+	DFT_1D,
+	IDFT_1D,
+	DFT_2D,
+	IDFT_2D
 };
 
 namespace ztCV {

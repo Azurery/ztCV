@@ -296,6 +296,7 @@ namespace ztCV {
 
 	using Complexf = Complex_<float>;
 	using Complexd = Complex_<double>;
+	using Complex = Complexd;
 
 	template<typename Type>
 	class DataType<Complex_<Type>> {

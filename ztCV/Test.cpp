@@ -207,6 +207,25 @@
 	 write_image(dest_file, dest);
  }
 
+ static void test_histogram_equalization() {
+	 const char* src_file = "D:\\pic.jpg";
+	 Mat src = read_image(src_file);
+	 Mat dest;
+	 histogram_equalization(src, dest);
+	 const char* dest_file = "D:\\2.jpg";
+	 write_image(dest_file, dest);
+ }
+
+ static void test_resize() {
+	 const char* src_file = "D:\\test.jpg";
+	 Mat src = read_image(src_file);
+	 Mat dest(Size(512, 512), src.type());
+	 //resize(src, dest, interpolation_type::INTERPOLATION_NEAREST);
+	 resize(src, dest, interpolation_type::INTERPOLATION_BILINEAR);
+	 const char* dest_file = "D:\\2.jpg";
+	 write_image(dest_file, dest);
+ }
+
  static void test() {
  //	test_point();
  //	test_size();
@@ -216,11 +235,13 @@
 //	 test_gaussian_blur();
 //	 test_box_filter();
 //	 test_median_filter();
-	 test_rgb2gray();
+//	 test_rgb2gray();
 //	 test_erode();
 //	 test_morphology();
 //	 test_threshold();
 //	 test_sobel();
+//	 test_histogram_equalization();
+	 test_resize();
  }
  
  int main() {

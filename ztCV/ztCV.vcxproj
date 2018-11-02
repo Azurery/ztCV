@@ -159,6 +159,7 @@
     <ClInclude Include="Mat.h" />
     <ClInclude Include="Mat.hpp" />
     <ClInclude Include="RWImage.hpp" />
+    <ClInclude Include="SIFT.hpp" />
     <ClInclude Include="Traits.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Types.hpp" />

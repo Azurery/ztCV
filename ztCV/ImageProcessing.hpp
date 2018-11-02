@@ -180,6 +180,18 @@ namespace ztCV {
 	template<typename Type>
 	void sobel(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size);
 
+	template<typename Type>
+	void laplacian(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size, int border_type);
+	
+	template<typename Type>
+	void histogram_equalization(Mat_<Type>& src, Mat_<Type>& dest);
+	
+	template<typename Type>
+	void dft(Mat_<Type>& src, Mat_<Type>& dest, dft_type type);
+
+
+	template<typename Type>
+	void resize(Mat_<Type>& src, Mat_<Type>& dest, interpolation_type inter_type);
 	
 
 	///////////////// implementation ///////////////
@@ -518,6 +530,7 @@ std::sort(color.begin(), color.end(), [](int a, int b) {return a < b; });\
 // 		}
 	}
 
+	// FIXME:
 	template<typename Type>
 	void sobel(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size) {
 		dest.create(src.size(), src.type());
@@ -573,6 +586,145 @@ std::sort(color.begin(), color.end(), [](int a, int b) {return a < b; });\
 		}
 	}
 
+	template<typename Type>
+	void laplacian(Mat_<Type>& src, Mat_<Type>& dest, Size kernel_size, int border_type) {
+		Matuc kernel(Size(3, 3), CV_8UCC1);
+		if (kernel_size.width_ == 1) {
+			kernel = { 0,	1,	0,
+					   1,  -4,	1,
+					   0,	1,	0
+			};
+		} else {
+			kernel = { 2,  0,  2, 
+					   0, -8,  0, 
+					   2,  0,  2
+			};
+		}
+		apply(src, dest, kernel, border_type);
+	}
 
+	template<typename Type>
+	void histogram_equalization(Mat_<Type>& src, Mat_<Type>& dest) {
+		dest.create(src.size(), CV_8UCC1);
+		rgb2gray(src, dest);
+		auto tmp = dest;
+
+		int histogram[256] = { 0 };
+		double equalized_histogram[256] = { 0 };
+		int sum_histogram[256] = { 0 };
+		int total = dest.total();
+		for (int i = 0; i < dest.rows(); i++) {
+			for (int j = 0; j < dest.cols(); j++) {
+				histogram[dest[i][j]]++;
+			}
+		}
+		//归一化
+		for (int i = 0; i < 256; i++) {
+			for (int j = 0; j <= i; j++) {
+				sum_histogram[i] += histogram[j];
+			}
+			equalized_histogram[i] = static_cast<double>(sum_histogram[i]) / total;
+		}
+
+		for (int i = 0; i < dest.rows(); i++) {
+			for (int j = 0; j < dest.cols(); j++) {
+				dest[i][j] = equalized_histogram[tmp[i][j]] * 255 + 0.5;
+			}
+		}
+	}
+
+	template<typename Type>
+	void dft(Mat_<Type>& src, Mat_<Type>& dest, dft_type type) {
+		Mat_<Type> src_gray(src.size(), CV_8UCC1);
+		dest.create(src.size(), CV_8UCC1);
+		rgb2gray(src, src_gray);
+		
+		Matd dft_tmp1d(src.size(), CV_8UCC1);
+		Matd dft_ret1d = dft_tmp1d;
+		for (int i = 0; i < src.rows(); i++) {
+			for (int u = 0; u < src.cols(); u++) {
+				Complex dft_row_ret(0, 0);
+				for (int x = 0; x < src.cols(); x++) {
+					double coefficient = -(2 * Pi*u*x) / src.cols();
+					Complex ret(std::cos(coefficient), std::sin(cofficient));
+					dft_row_ret += src[i][x] * ret;
+				}
+				if (type == dft_type::DFT_1D) {
+					dft_tmp1d.at<Complex>(i, x) = dft_row_ret;
+				} else if (type == dft_type::IDFT_1D) {
+					// FIXME:
+					dft_tmp1d.at<Complex>(i, x) = dft_row_ret / src.cols();
+				}
+			}
+		}
+		if (src.rows() < 2) {
+			dest = dft_ret1d;
+			return;
+		}
+
+// 		for (int i = 0; i < src.rows(); i++) {
+// 			for (int j = 0; j < src.cols(); j++) {
+// 
+// 			}
+// 		}
+	}
+
+	template<typename Type>
+	void resize(Mat_<Type>& src, Mat_<Type>& dest, interpolation_type inter_type) {
+		Size src_size = src.size();
+		Size dest_size = dest.size();
+		if (dest_size == src_size) {
+			dest = src;
+		}
+		double scale_x = static_cast<double>(src_size.width_) / dest_size.width_;
+		double scale_y = static_cast<double>(src_size.height_) / dest_size.height_;
+		std::cout<<scale_x<<" "<<scale_y<<std::endl;
+		switch (inter_type) {
+		case interpolation_type::INTERPOLATION_NEAREST:
+			for (int y = 0; y < dest_size.height_; y++) {
+				int src_y = std::min(static_cast<int>(std::floor(y * scale_y)), src_size.height_ - 1);
+				for (int x = 0; x < dest_size.width_; x++) {
+					int src_x = std::min(static_cast<int>(std::floor(x * scale_x)), src_size.width_ - 1);
+					for (int c = 0; c < src.channels(); c++) {
+						dest.at<Vec3uc>(y, x)[c] = src.at<Vec3uc>(src_y, src_x)[2 - c];
+						//std::cout << (int)dest.at<Vec3uc>(y, x)[c] << ",";
+					}
+				}
+			}
+			break;
+		case interpolation_type::INTERPOLATION_BILINEAR:
+			for (int y = 0; y < dest_size.height_; y++) {
+				double src_y = static_cast<double>((y + 0.5) * scale_y - 0.5);
+				int src_y_integer = std::floor(src_y);
+				double src_y_fraction = src_y - src_y_integer;
+				src_y_integer = src_y_integer < 0 ? 0 : std::min(src_y_integer, src_size.height_);
+
+				int buffer_y[2];
+				buffer_y[0] = (1.f - src_y_fraction) * 2048;
+				buffer_y[1] = 2048 - buffer_y[0];
+				for (int x = 0; x < dest_size.width_; x++) {
+					double src_x = static_cast<double>((x + 0.5) * scale_x - 0.5);
+					int src_x_integer = std::floor(src_x);
+					double src_x_fraction = src_x - src_x_integer;
+					if (src_x_integer < 0) {
+						src_x_fraction = 0, src_x_integer = 0;
+					}
+					
+					int buffer_x[2];
+					buffer_x[0] = (1.f - src_x_fraction) * 2048;
+					buffer_x[1] = 2048 - buffer_x[0];
+					for (int c = 0; c < src.channels(); c++) {
+						dest.at<Vec3uc>(y, x)[c] = (src.at<Vec3uc>(src_y_integer, src_x_integer)[2 - c] * buffer_x[0] * buffer_y[0] +
+							src.at<Vec3uc>(src_y_integer + 1, src_x_integer)[2 - c] * buffer_x[0] * buffer_y[1] +
+							src.at<Vec3uc>(src_y_integer, src_x_integer + 1)[2 - c] * buffer_x[1] * buffer_y[0] +
+							src.at<Vec3uc>(src_y_integer + 1, src_x_integer + 1)[2 - c] * buffer_x[1] * buffer_y[1]) >> 22;
+					}
+				}
+
+			}	
+			break;
+		}
+	}
 }
+
 #endif

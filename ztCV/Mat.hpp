@@ -364,10 +364,10 @@ namespace ztCV {
 	}
 
 
-	template<typename Type>
-	const Mat_<Type>& Mat_<Type>::clone() const {
-		return Mat_<Type>(this->rows(), this->cols(), this->type());
-	}
+// 	template<typename Type>
+// 	const Mat_<Type>& Mat_<Type>::clone() const {
+// 		return Mat_<Type>(this->rows(), this->cols(), this->type());
+// 	}
 
 	template<typename Type>
 	Mat_<Type>& operator-(Mat_<Type>& src, Mat_<Type>& dest) {
@@ -415,39 +415,7 @@ namespace ztCV {
 		return reinterpret_cast<Type2*>(data_ptr_ + row * layer_[0]);
 	}
 
-	template<typename Type>
-	void Mat_<Type>::interpolation_nearest(Mat_<Type>& src, Mat_<Type>& dest) {
-		Size src_size = src.size();
-		Size dest_size = dest.size();
-		double scale_x, scale_y;
-		if (dest_size.empty()) {
-			dest_size = Size(src_size.width_*scale_x,
-				src_size.height_*sclae_y);
-			assert(dest_size.empty() != nullptr);
-		}
-		else {
-			scale_x = static_cast<double>(dest_size.width_ / src_size.width_);
-			scale_y = static_cast<double>(dest_size.height_ / src_size.height_);
-		}
-
-		int src_x_buffer[dest_size] = { 0 };
-		for (int x = 0; x < dest_size.width_; x++) {
-
-		}
-		double invert_scale_x = 1 / scale_x, invert_scale_y = 1 / scale_y;
-		for (int j = 0; j < dest_size.height_; j++) {
-			int src_y = std::min(std::floor(j*invert_scale_y), src_size.height_ - 1);
-			const uint8_t* src_row = src.ptr(src_y);
-			for (int i = 0; i < dest_size.width_; i++) {
-				auto tmp = src_row[i];
-			}
-		}
-	}
-
-	template<typename Type>
-	void Mat_<Type>::resize(Mat_<Type>& src, Mat_<Type>& dest, interpolation_type inter_type /*= interpolation_type::INTERPOLATION_BILINEAR*/) {
-		
-	}
+	
 
 
 	//////////////////// mat_const_iterator //////////////

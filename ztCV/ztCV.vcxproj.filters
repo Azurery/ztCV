@@ -45,5 +45,8 @@
     <ClInclude Include="ImageProcessing.hpp">
       <Filter>imgprocess</Filter>
     </ClInclude>
+    <ClInclude Include="SIFT.hpp">
+      <Filter>imgprocess</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

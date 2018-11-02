@@ -170,7 +170,7 @@ namespace ztCV {
 		Type* operator[](size_t n);
 		const Type* operator[](size_t n) const;
 
-		const Mat_<Type>& clone() const;
+		//const Mat_<Type>& clone(Mat_<Type>& other) const;
 
 		//************************************
 		// \method name:zeros
@@ -188,7 +188,6 @@ namespace ztCV {
 		void set_value(Type value);
 		template<typename Type2> void set_value(const Scalar& s);
 
-		void resize(Mat_<Type>& src, Mat_<Type>& dest, interpolation_type inter_type = interpolation_type::INTERPOLATION_BILINEAR);
 		const Size size() const;
 
 		Type* ptr(int row);

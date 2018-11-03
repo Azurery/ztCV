@@ -8,6 +8,7 @@
  #include <iostream>
  #include "Traits.h"
 #include "ImageProcessing.hpp"
+#include "SIFT.hpp"
  
  using namespace ztCV; 
  
@@ -224,6 +225,13 @@
 	 resize(src, dest, interpolation_type::INTERPOLATION_BILINEAR);
 	 const char* dest_file = "D:\\2.jpg";
 	 write_image(dest_file, dest);
+ }
+
+
+ static void test_sift() {
+	 const char* src_file = "D:\\test.jpg";
+	 Mat src = read_image(src_file);
+	
  }
 
  static void test() {

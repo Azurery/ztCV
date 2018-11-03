@@ -193,6 +193,9 @@ namespace ztCV {
 	template<typename Type>
 	void resize(Mat_<Type>& src, Mat_<Type>& dest, interpolation_type inter_type);
 	
+	template<typename Type>
+	Mat_<Type>& subtract(Mat_<Type>& src, Mat_<Type>& dest);
+
 
 	///////////////// implementation ///////////////
 
@@ -724,6 +727,11 @@ std::sort(color.begin(), color.end(), [](int a, int b) {return a < b; });\
 			}	
 			break;
 		}
+	}
+
+	template<typename Type>
+	Mat_<Type>& subtract(Mat_<Type>& src, Mat_<Type>& dest) {
+		return dest - src;
 	}
 }
 

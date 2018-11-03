@@ -1,43 +1,19 @@
 ﻿  Test.cpp
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(232): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(239): warning C4244: “/=”: 从“double”转换到“float”，可能丢失数据
-d:\programming\projects\c++\ztcv\ztcv\test.cpp(47): warning C4477: “fprintf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 4 拥有了类型“double”
-d:\programming\projects\c++\ztcv\ztcv\mat.hpp(270): warning C4018: “<=”: 有符号/无符号不匹配
-  d:\programming\projects\c++\ztcv\ztcv\rwimage.hpp(62): note: 参见对正在编译的函数 模板 实例化“Type2 &ztCV::Mat_<uint8_t>::at<float>(int,int)”的引用
+d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(235): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(242): warning C4244: “/=”: 从“double”转换到“float”，可能丢失数据
+d:\programming\projects\c++\ztcv\ztcv\sift.hpp(91): error C2760: 语法错误: 意外的令牌“}”，预期的令牌为“;”
+d:\programming\projects\c++\ztcv\ztcv\sift.hpp(108): error C2244: “ztCV::SIFT<Type>::find_scale_space_extremum”: 无法将函数定义与现有的声明匹配
+  d:\programming\projects\c++\ztcv\ztcv\sift.hpp(108): note: 参见“ztCV::SIFT<Type>::find_scale_space_extremum”的声明
+  d:\programming\projects\c++\ztcv\ztcv\sift.hpp(108): note: 定义
+  d:\programming\projects\c++\ztcv\ztcv\sift.hpp(108): note: 'void ztCV::SIFT<Type>::find_scale_space_extremum(const std::vector<ztCV::Mat_<Type>,std::allocator<_Ty>> &,const std::vector<ztCV::Mat_<Type>,std::allocator<_Ty>> &)'
           with
           [
-              Type2=float
+              _Ty=ztCV::Mat_<Type>
           ]
-  d:\programming\projects\c++\ztcv\ztcv\rwimage.hpp(62): note: 参见对正在编译的函数 模板 实例化“Type2 &ztCV::Mat_<uint8_t>::at<float>(int,int)”的引用
+  d:\programming\projects\c++\ztcv\ztcv\sift.hpp(108): note: 现有声明
+  d:\programming\projects\c++\ztcv\ztcv\sift.hpp(108): note: 'void ztCV::SIFT<Type>::find_scale_space_extremum(const std::vector<std::vector<ztCV::Mat_<Type>,std::allocator<_Ty>>,std::allocator<std::vector<ztCV::Mat_<Type>,std::allocator<_Ty>>>> &,const std::vector<std::vector<ztCV::Mat_<Type>,std::allocator<_Ty>>,std::allocator<std::vector<ztCV::Mat_<Type>,std::allocator<_Ty>>>> &)'
           with
           [
-              Type2=float
+              _Ty=ztCV::Mat_<Type>
           ]
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(208): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-  d:\programming\projects\c++\ztcv\ztcv\test.cpp(146): note: 参见对正在编译的函数 模板 实例化“void ztCV::box_filter<uint8_t>(const ztCV::Mat_<uint8_t> &,ztCV::Mat_<uint8_t> &,ztCV::Size,bool,int)”的引用
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(332): warning C4244: “=”: 从“double”转换到“uint8_t”，可能丢失数据
-  d:\programming\projects\c++\ztcv\ztcv\test.cpp(165): note: 参见对正在编译的函数 模板 实例化“void ztCV::rgb2gray<uint8_t>(ztCV::Mat_<uint8_t> &,ztCV::Mat_<uint8_t> &)”的引用
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(527): warning C4244: “参数”: 从“double”转换到“uint8_t”，可能丢失数据
-  d:\programming\projects\c++\ztcv\ztcv\test.cpp(196): note: 参见对正在编译的函数 模板 实例化“void ztCV::threshold<uint8_t>(ztCV::Mat_<uint8_t> &,ztCV::Mat_<uint8_t> &,double,double,threshold_type)”的引用
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(631): warning C4244: “=”: 从“double”转换到“uint8_t”，可能丢失数据
-  d:\programming\projects\c++\ztcv\ztcv\test.cpp(214): note: 参见对正在编译的函数 模板 实例化“void ztCV::histogram_equalization<uint8_t>(ztCV::Mat_<uint8_t> &,ztCV::Mat_<uint8_t> &)”的引用
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(698): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-  d:\programming\projects\c++\ztcv\ztcv\test.cpp(224): note: 参见对正在编译的函数 模板 实例化“void ztCV::resize<uint8_t>(ztCV::Mat_<uint8_t> &,ztCV::Mat_<uint8_t> &,interpolation_type)”的引用
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(703): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(707): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(714): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
-d:\programming\projects\c++\ztcv\ztcv\mat.hpp(277): warning C4018: “<=”: 有符号/无符号不匹配
-  d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(53): note: 参见对正在编译的函数 模板 实例化“const Type2 &ztCV::Mat_<uint8_t>::at<float>(int,int) const”的引用
-          with
-          [
-              Type2=float
-          ]
-  d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(53): note: 参见对正在编译的函数 模板 实例化“const Type2 &ztCV::Mat_<uint8_t>::at<float>(int,int) const”的引用
-          with
-          [
-              Type2=float
-          ]
-  d:\programming\projects\c++\ztcv\ztcv\imageprocessing.hpp(252): note: 参见对正在编译的函数 模板 实例化“void ztCV::apply<uint8_t,float>(const ztCV::Mat_<uint8_t> &,ztCV::Mat_<uint8_t> &,ztCV::Mat_<float> &,int)”的引用
-  d:\programming\projects\c++\ztcv\ztcv\test.cpp(127): note: 参见对正在编译的函数 模板 实例化“void ztCV::gaussian_blur<uint8_t>(ztCV::Mat_<uint8_t> &,ztCV::Mat_<uint8_t> &,ztCV::Size,double,double,int)”的引用
-d:\programming\projects\c++\ztcv\ztcv\rwimage.hpp(133): warning C4715: “ztCV::write_image”: 不是所有的控件路径都返回值
-  ztCV.vcxproj -> D:\Programming\Projects\C++\ztCV\Debug\ztCV.exe
+d:\programming\projects\c++\ztcv\ztcv\test.cpp(48): warning C4477: “fprintf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 4 拥有了类型“double”

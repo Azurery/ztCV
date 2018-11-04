@@ -202,7 +202,7 @@ namespace ztCV {
 		template<typename Type2> Type2* ptr(int row, int col);
 		template<typename Type2> const Type2* ptr(int row, int col) const;
 
-		void interpolation_nearest(Mat_<Type>& src, Mat_<Type>& dest);
+		void solve(Mat_<Type>& src);
 
 
 		// Êý¾ÝÖ¸Õë

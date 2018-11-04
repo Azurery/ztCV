@@ -4,6 +4,9 @@
 #include <cstdlib>
 
 #define SIFT_INITIAL_SIGMA (0.5f)
+#define SIFT_IMAGE_BORDER 5			//预定义的图像边缘
+#define SIFT_MAX_INTERPOLATION_STEPS 5 //失败前，关键点插值的最大步骤
+
 #define Pi (3.141592654)
 #define MAT_FLAGS_MASK (1<<12)
 #define MAKE_TYPE(depth,channels) ((depth)&(00000111)|((channels)<<3))
